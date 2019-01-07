@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+ 
+<!--     레이아웃을 적용하는 화면(팝업)
+    <definition name="popup" template="/WEB-INF/jsp/tileLayout/loginLayout.jsp">
+        <put-attribute name="body" value="/WEB-INF/tiles/tile/tilebody.jsp" />
+    </definition>
+    적용한 레이아웃에 끼워넣을 타일 설정(팝업)
+    <definition name="pop/*" extends="popup">
+      <put-attribute name="body" value="/WEB-INF/pop/{1}.jsp" />
+    </definition> -->
+ 
+    <!-- 레이아웃을 적용하는화면(메인)-->
+    <definition name="rootile" template="/WEB-INF/tiles/layout/mainlayout.jsp">
+        <put-attribute name="lib" value="/WEB-INF/tiles/tile/tilelib.jsp" />
+        <put-attribute name="header" value="/WEB-INF/tiles/tile/tileheader.jsp" />
+        <put-attribute name="body" value="/WEB-INF/tiles/tile/tilebody.jsp" />
+        <put-attribute name="pop" value="/WEB-INF/tiles/tile/tilepop.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/tile/tilefooter.jsp" />
+    </definition>
+    
+    <!-- 적용한 레이아웃에 끼워넣을 타일 설정(메인)-->
+   <definition name="home" extends="rootile">
+      <put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+      <put-attribute name="pop" value="/WEB-INF/views/popup.jsp" />
+    </definition>
+    
+    
+    
+</tiles-definitions>
