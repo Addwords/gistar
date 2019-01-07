@@ -7,7 +7,7 @@
 	<select id="selectList" resultType="com.kt.vo.GisVO">
 	<!-- VO랑 변수명 맞춰야함 -->
 	<![CDATA[
-		SELECT 
+		SELECT
 			  NAME
 			 ,AGE
 		 FROM GISTAR.TEST

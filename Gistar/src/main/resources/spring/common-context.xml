@@ -29,7 +29,7 @@
 
     <!-- mapper자동등록 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-    	<property name="basePackage" value="com.day.post.mapper"/>
+    	<property name="basePackage" value="com.kt.mapper"/>
     	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     	<property name="nameGenerator" ref="FQDNBeanNameGenerator"/>
     </bean>

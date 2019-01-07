@@ -23,9 +23,9 @@ public class GisController {
 	@Autowired
 	private GisService gisService;
 	
-	//게시글 건수와 게시글 뿌리기
+	//뿌리기
 	@RequestMapping(value="/di/selectList.gistar", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> selectPostList(){
+	public @ResponseBody Map<String, Object> selectList(){
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		

@@ -26,7 +26,7 @@ public class GisServiceImpl implements GisService{
 	@Override
 	public Map<String, Object> selectList() {
 		
-		log.debug("selectPostList : {}", gisMapper.toString());
+		log.info("selectPostList : {}", gisMapper.toString());
 		
 		Map<String,Object> resultMap = new HashMap<String, Object>();
 		

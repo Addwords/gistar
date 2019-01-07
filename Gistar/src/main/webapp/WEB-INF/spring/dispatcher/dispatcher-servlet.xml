@@ -13,11 +13,11 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	<context:component-scan base-package="com.day.post" />
+	<context:component-scan base-package="com.kt" />
 
 	<!-- 트렌젝션 관련 -->
 	<aop:config>
-		<aop:pointcut id="defaultBusinessOperation" expression="execution(* com.day.post..*Impl.*(..))" />
+		<aop:pointcut id="defaultBusinessOperation" expression="execution(* com.kt..*Impl.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="defaultBusinessOperation"/>
 	</aop:config>
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">

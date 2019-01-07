@@ -107,10 +107,8 @@ var list = (function(){
 					var d = data[i];
 
 					hstr += '<ul class="ulist">';
-					hstr += '<li><b>['+d.hdctg+']</b></li>';
-					hstr += '<li><b>'+d.potitle+'</b></li><br>';
-					hstr += '<li>'+d.contents+'</li><br>';
-					hstr += '<li>'+d.cretDt+'</li>';
+					hstr += '<li><b>'+d.name+'</b></li>';
+					hstr += '<li><b>'+d.age+'</b></li><br>';
 
 					
 				}

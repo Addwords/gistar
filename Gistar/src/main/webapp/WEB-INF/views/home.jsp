@@ -28,20 +28,13 @@ var main = (function(){
 		,postcnt : function(data){
 			if(data.result && data.result != ''){
 				//var pcnt = validVal(data.result.listcnt) ? data.result.listcnt : 0;
-				var pcnt = data.result.listcnt ? data.result.listcnt : 0;
+				//var pcnt = data.result.listcnt ? data.result.listcnt : 0;
 				
-				$('.postcnt b').text(pcnt.toLocaleString());
-				list.set(data.result.resultlist, $('.lists'))
+				//$('.postcnt b').text(pcnt.toLocaleString());
+				list.set(data.result.resultlist, $('#nam'))
 			}
 		}
-		,todoList : function(data){
-
-		}
-		,submit : function(){
-			console.log('실행');
-			document.wrtForm.action = '/di/insertPost.day';
-			wrtForm.submit();
-		}
+		
 	}
 })();
 
