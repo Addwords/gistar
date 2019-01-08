@@ -31,7 +31,8 @@ var main = (function(){
 				//var pcnt = data.result.listcnt ? data.result.listcnt : 0;
 				
 				//$('.postcnt b').text(pcnt.toLocaleString());
-				list.set(data.result.resultlist, $('#nam'))
+				
+				list.set(data.result.resultlist, $('#nam'));
 			}
 		}
 		
