@@ -11,7 +11,7 @@
 </h1>
 내이름은 <p id='nam'></p>
 나이는 <p id='ag'></p>
-
+push test
 <script type="text/javascript">
 $(function(){
 	main.init();
