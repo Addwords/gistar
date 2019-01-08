@@ -1,7 +1,17 @@
 # : comments
 
 # no .a files
-*.properties
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
 
 # but do track lib.a, even though you're ignoring .a files above
 !lib.a
