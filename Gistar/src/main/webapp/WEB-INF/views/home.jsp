@@ -7,7 +7,8 @@
 </head>
 <body>
 <h1>
-	Hello Google!  
+	Hello Google!
+	<a href="/oltest.gistar">Test</a>  
 </h1>
 내이름은 <p id='nam'></p>
 나이는 <p id='ag'></p>
@@ -40,7 +41,7 @@ var main = (function(){
 })();
 
 </script>
-	<div id="map" style="width:1400px;height:800px;"></div>
+	<div id="map" style="width:100%;height:800px;"></div>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ddaeded8e5133d083b78618ed700a827"></script>
 	<script>
 		var container = document.getElementById('map');

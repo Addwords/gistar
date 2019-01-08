@@ -14,6 +14,7 @@ public class UrlController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UrlController.class);
 	
+	//홈
 	@RequestMapping(value = "/home.gistar", method = RequestMethod.GET)
 	public String home(Locale locale) {
 		String loca = locale.toString();
@@ -25,5 +26,12 @@ public class UrlController {
 		//첫화면
 		return "home";
 	}
+	
+	//테스트
+		@RequestMapping(value = "/oltest.gistar", method = RequestMethod.GET)
+		public String oltest() {
+			
+			return "oltest";
+		}
 	
 }
