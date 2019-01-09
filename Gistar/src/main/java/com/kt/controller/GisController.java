@@ -41,4 +41,23 @@ public class GisController {
 		
 		return map;
 	}
+	
+	//상권정보 가져오기
+		@RequestMapping(value="/di/getSangList.gistar", method = RequestMethod.POST)
+		public @ResponseBody Map<String, Object> getSangList(){
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			try {
+				map.put("errorYn", "N");
+				map.put("result", gisService.selectList());
+				
+			}catch(Exception e) {
+				log.debug("{}",e.getMessage());
+				map.put("errorYn", "Y");
+				map.put("result", "ERROR");
+			}
+			
+			return map;
+		}
 }

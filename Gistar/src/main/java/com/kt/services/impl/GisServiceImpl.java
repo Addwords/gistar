@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.kt.mapper.GisMapper;
 import com.kt.services.GisService;
 import com.kt.vo.GisVO;
+import com.kt.vo.SangVO;
 
 @Service(value="com.kt.service.impl.GisServiceImpl")
 public class GisServiceImpl implements GisService{
@@ -35,6 +36,20 @@ public class GisServiceImpl implements GisService{
 		List<GisVO> resultlist = gisMapper.selectList();
 		
 		//resultMap.put("listcnt", listcnt);
+		resultMap.put("resultlist", resultlist);
+		
+		return resultMap;
+	}
+
+
+	@Override
+	public Map<String, Object> getSangList() {
+		log.info("getSangList : {}", gisMapper.toString());
+		
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+			
+		List<SangVO> resultlist = gisMapper.getSangList();
+		
 		resultMap.put("resultlist", resultlist);
 		
 		return resultMap;
