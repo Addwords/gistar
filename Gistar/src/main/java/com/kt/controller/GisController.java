@@ -1,6 +1,7 @@
 package com.kt.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -8,11 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kt.services.GisService;
+import com.kt.vo.SangVO;
 
 @Controller(value="com.kt.controller.GisController")
 public class GisController {
@@ -42,15 +46,37 @@ public class GisController {
 		return map;
 	}
 	
-	//상권정보 가져오기
+		//상권정보 가져오기
 		@RequestMapping(value="/di/getSangList.gistar", method = RequestMethod.POST)
-		public @ResponseBody Map<String, Object> getSangList(){
+		public @ResponseBody Map<String, Object> getSangList(@RequestBody SangVO sangVO){
+			//@RequestParam(value="sggnm") List<String> sg,  @ModelAttribute
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			try {
+				map.put("errorYn", "N");
+				System.out.println("컨트롤"+sangVO);
+				map.put("result", gisService.getSangList(sangVO));
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+				log.debug("{}",e.getMessage());
+				map.put("errorYn", "Y");
+				map.put("result", "ERROR");
+			}
+			
+			return map;
+		}
+		
+		
+		//서울시 구 정보 가져오기
+		@RequestMapping(value="/di/getSeoulList.gistar", method = RequestMethod.POST)
+		public @ResponseBody Map<String, Object> getSeoulList(){
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			try {
 				map.put("errorYn", "N");
-				map.put("result", gisService.selectList());
+				map.put("result", gisService.getSeoulList());
 				
 			}catch(Exception e) {
 				log.debug("{}",e.getMessage());

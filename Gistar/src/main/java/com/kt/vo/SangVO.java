@@ -3,25 +3,25 @@ package com.kt.vo;
 
 public class SangVO {
 
-	private int tra_num;    //상권번호
-	private String tra_nm;       //상권명
-	private String upjong_big_cd; //업종코드(대분류)
-	private String upjong_mid_cd; //업종코드(중분류)
+	private int tra_num;            //상권번호
+	private String tra_nm;          //상권명
+	private String upjong_big_cd;   //업종코드(대분류)
+	private String upjong_mid_cd;   //업종코드(중분류)
 	private String upjong_small_cd; //업종코드(소분류)
-	private String sido_cd; //시도코드 
-	private String sido_nm; //시도명 
-	private String sgg_cd; //시군구코드 
-	private String sgg_nm; //시군구명 
-	private String admdong_cd; //읍면동코드 
-	private String admdong_nm; //읍면동명 
-    private String buld_nm; //빌딩명
-    private String doro_addr; //도로명주소
-    private int addr_num; //지번
-    private String dong_info; //건물동
-    private String floor_info; //건물동
-    private String ho_info; //건물동
-    private String xcrd; //위도
-    private String ycrd; //경도
+	private String sido_cd;         //시도코드 
+	private String sido_nm;         //시도명 
+	private String sggcd;          //시군구코드 
+	private String sggnm;          //시군구명 
+	private String admdong_cd;      //읍면동코드 
+	private String admdong_nm;      //읍면동명 
+    private String buld_nm;         //빌딩명
+    private String doro_addr;       //도로명주소
+    private int addr_num;           //지번
+    private String dong_info;       //건물동
+    private String floor_info;      //건물동
+    private String ho_info;         //건물동
+    private String xcrd;            //위도
+    private String ycrd;            //경도
     
 	public int getTra_num() {
 		return tra_num;
@@ -65,17 +65,17 @@ public class SangVO {
 	public void setSido_nm(String sido_nm) {
 		this.sido_nm = sido_nm;
 	}
-	public String getSgg_cd() {
-		return sgg_cd;
+	public String getSggcd() {
+		return sggcd;
 	}
-	public void setSgg_cd(String sgg_cd) {
-		this.sgg_cd = sgg_cd;
+	public void setSggcd(String sggcd) {
+		this.sggcd = sggcd;
 	}
-	public String getSgg_nm() {
-		return sgg_nm;
+	public String getSggnm() {
+		return sggnm;
 	}
-	public void setSgg_nm(String sgg_nm) {
-		this.sgg_nm = sgg_nm;
+	public void setSggnm(String sggnm) {
+		this.sggnm = sggnm;
 	}
 	public String getAdmdong_cd() {
 		return admdong_cd;

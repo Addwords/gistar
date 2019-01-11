@@ -14,13 +14,39 @@
 	]]>
 	</select>
 
-<!-- 상권정보 가져오기 -->
-	<select id="getSangList" resultType="com.kt.vo.SangVO">
+	<!-- 선택된 구에 해당하는 상권 정보 가져오기  -->
+	<select id="getSangList" parameterType="com.kt.vo.SangVO" resultType="com.kt.vo.SangVO">
 	<!-- VO랑 변수명 맞춰야함 -->
 	<![CDATA[
-		SELECT *
+		 SELECT
+		 	 --tra_nm
+			--,sido_cd
+			--,sido_nm
+			 sgg_cd
+			,sgg_nm
+			--,admdong_nm
+			--,xcrd
+			,substr(xcrd, 1, 9) xcrd
+			--,ycrd
+			,substr(ycrd,1, 10) ycrd
 		 FROM TRA_XYCRD
+		 WHERE sgg_nm = #{sggnm}
+		 LIMIT 1
 	]]>
 	</select>
+	
+	<!-- 서울시 구 정보 가져오기 -->
+	<select id="getSeoulList" resultType="com.kt.vo.SangVO">
+	<!-- VO랑 변수명 맞춰야함 -->
+	<!-- VO는 언더바 빼야함-->
+	<![CDATA[
+		SELECT
+			  SGG_CD
+			  ,SGG_NM
+		  FROM COMCD
+	]]>
+	</select>
+	
+
 
 </mapper>

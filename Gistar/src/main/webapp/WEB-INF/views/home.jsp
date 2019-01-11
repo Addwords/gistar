@@ -15,6 +15,8 @@
 
 <div id="clickLatlng"></div>
 
+<input type="button" id="lmit10" onclick="">
+
 <script type="text/javascript">
 $(function(){
 	main.init();

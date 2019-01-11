@@ -30,7 +30,12 @@ var ajax = (function(){ //post, cmm
 		
 		post : function(path, jsonObj, successFunction, failFunction, initData){
 				type = 'POST';
-				
+				//console.log(jsonObj);
+				if(initData && initData.enctype == 'multipart/form-data'){ // file upload 제외
+			        jsonObj = jsonObj;
+			      }else if(!(initData && initData.hasOwnProperty('objectFlag'))){// form 제외
+			        jsonObj = (jsonObj) ? JSON.stringify(jsonObj) : '';
+			      }
 				initData = $.extend({}, defaultOp, initData);
 				ajax.cmm(type, path, jsonObj, successFunction, failFunction, initData);
 		}//post End
@@ -41,6 +46,7 @@ var ajax = (function(){ //post, cmm
 					,type : method
 					,data : jsonObj
 					,success : function(data){
+						console.log("아작스"+jsonObj);
 						if(data.errorYn == 'N'){
 							if(successFunction !== undefined && successFunction !== ''){
 								successFunction(data);
@@ -109,13 +115,26 @@ var list = (function(){
 					hstr += '<ul class="ulist">';
 					hstr += '<li><b>'+d.name+'</b></li>';
 					hstr += '<li><b>'+d.age+'</b></li><br>';
-
-					
 				}
 			}else{
 				hstr = "게시글이 없습니다."
 			}
 			divid.html(hstr);
+		}
+		
+		//드롭박스 
+		,selbox : function(data, selectid){
+			var sstr = '';
+			if(data && data.length > 0){
+				//데이터양만큼 
+				for(i in data){
+					var d = data[i];
+					sstr += '<option id="'+d.sggcd+'">'+d.sggnm+'</option>';
+				}
+			}else{
+				sstr = "코드가 없습니다."
+			}
+			selectid.html(sstr);
 		}
 	}
 })();

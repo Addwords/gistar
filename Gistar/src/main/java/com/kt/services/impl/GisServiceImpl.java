@@ -13,6 +13,7 @@ import com.kt.mapper.GisMapper;
 import com.kt.services.GisService;
 import com.kt.vo.GisVO;
 import com.kt.vo.SangVO;
+import com.kt.vo.guVO;
 
 @Service(value="com.kt.service.impl.GisServiceImpl")
 public class GisServiceImpl implements GisService{
@@ -43,15 +44,26 @@ public class GisServiceImpl implements GisService{
 
 
 	@Override
-	public Map<String, Object> getSangList() {
+	public Map<String, Object> getSangList(SangVO sangVO) {
 		log.info("getSangList : {}", gisMapper.toString());
 		
 		Map<String,Object> resultMap = new HashMap<String, Object>();
-			
-		List<SangVO> resultlist = gisMapper.getSangList();
-		
+			System.out.println("서비스"+sangVO.toString());
+		List<SangVO> resultlist = gisMapper.getSangList(sangVO);
+		System.out.println("서비스2"+sangVO.toString());
+		System.out.println(resultlist.toString());
 		resultMap.put("resultlist", resultlist);
 		
+		return resultMap;
+	}
+
+
+	@Override
+	public Map<String, Object> getSeoulList() {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<SangVO> resultlist = gisMapper.getSeoulList();
+		//System.out.println(resultlist.toString());
+		resultMap.put("resultlist", resultlist);
 		return resultMap;
 	}
 

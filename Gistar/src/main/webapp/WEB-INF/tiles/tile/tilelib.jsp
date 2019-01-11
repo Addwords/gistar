@@ -4,7 +4,7 @@
 <!-- JS파일 -->
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="/resources/js/ajax.js"></script>
-<!-- <script type="text/javascript" src="/resources/js/services.js"></script> -->
+<script type="text/javascript" src="/resources/js/angular.min.js"></script>
 
 
 <!-- CSS파일 -->
