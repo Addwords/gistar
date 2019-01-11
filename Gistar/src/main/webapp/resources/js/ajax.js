@@ -141,11 +141,17 @@ var list = (function(){
 		,selbox2 : function(data, selectid){
 			var sstr2 = '';
 			if(data && data.length > 0){
+				//positions = [];
 				//데이터양만큼 
 				for(i in data){
 					var d = data[i];
 					sstr2 += '<p>'+d.sggNm+' '+d.admdongNm+'의 좌표 [x='+d.xCrd+' : y='+d.yCrd+']</p>';
-				}
+					//positions.push('{title:"'+d.traNm+'" , latlng: new daum.maps.LatLng('+d.xCrd+', '+d.yCrd+')}')
+					
+					positions.push({title:d.traNm, latlng: new daum.maps.LatLng(d.xCrd, d.yCrd)});
+						}
+				
+				console.log(positions);
 			}else{
 				sstr2 = "코드가 없습니다."
 			}

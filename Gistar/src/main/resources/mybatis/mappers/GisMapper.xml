@@ -19,7 +19,8 @@
 	<!-- VO랑 변수명 맞춰야함 -->
 	<![CDATA[
 		 SELECT
-			 sgg_cd
+			 tra_nm
+			,sgg_cd
 			,sgg_nm
 			,admdong_nm
 			,xcrd::numeric
