@@ -19,16 +19,10 @@
 	<!-- VO랑 변수명 맞춰야함 -->
 	<![CDATA[
 		 SELECT
-		 	 --tra_nm
-			--,sido_cd
-			--,sido_nm
 			 sgg_cd
 			,sgg_nm
-			--,admdong_nm
-			--,xcrd
 			,substr(xcrd, 1, 9) xcrd
-			--,ycrd
-			,substr(ycrd,1, 10) ycrd
+			,substr(ycrd, 1, 10) ycrd
 		 FROM TRA_XYCRD
 		 WHERE sgg_nm = #{sggnm}
 		 LIMIT 1
