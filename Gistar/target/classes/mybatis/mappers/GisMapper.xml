@@ -21,10 +21,11 @@
 		 SELECT
 			 sgg_cd
 			,sgg_nm
+			,admdong_nm
 			,xcrd::numeric
 			,ycrd::numeric
 		 FROM TRA_XYCRD
-		 WHERE sgg_nm = #{sggnm}
+		 WHERE sgg_nm = #{sggNm}
 		 LIMIT 10
 	]]>
 	</select>

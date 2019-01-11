@@ -129,7 +129,7 @@ var list = (function(){
 				//데이터양만큼 
 				for(i in data){
 					var d = data[i];
-					sstr += '<option id="'+d.sggcd+'">'+d.sggnm+'</option>';
+					sstr += '<option id="'+d.sggCd+'">'+d.sggNm+'</option>';
 				}
 			}else{
 				sstr = "코드가 없습니다."
@@ -144,7 +144,7 @@ var list = (function(){
 				//데이터양만큼 
 				for(i in data){
 					var d = data[i];
-					sstr2 += '<p id="'+d.xcrd+'">'+d.ycrd+'feesese</p>';
+					sstr2 += '<p>'+d.sggNm+' '+d.admdongNm+'의 좌표 [x='+d.xCrd+' : y='+d.yCrd+']</p>';
 				}
 			}else{
 				sstr2 = "코드가 없습니다."

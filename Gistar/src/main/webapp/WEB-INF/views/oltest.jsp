@@ -19,6 +19,7 @@
     </form>
     <input type="button" id="lmit10" onclick="main.sang(this)" value="{{name}}">
 	<div id="objec"></div>
+	<div id="test"></div>
 	<div id="map" style="width:1400px; height:800px;"></div>
 
 	<!-- <script type="text/javascript" src="//api.ollehmap.com:10083/v3/olleh/mapAPI.js?key=T2xsZWhNYXBJTjAwNTM6bXUyMjY3MUhrMA=="></script> -->
@@ -169,10 +170,10 @@ function createMarkerImage(markerSize, offset, spriteOrigin) {
 					console.log("init실행완료");
 					ajax.post('/di/getSeoulList.gistar', {}, main.slist);
 				}//init 끝
-				
+				//openlay.map(val : {})
 				,slist : function(data){
 					if(data.result && data.result != ''){
-						$('#lmit10').val(data.result.resultlist[0].sggnm); //초기값 설정
+						$('#lmit10').val(data.result.resultlist[0].sggNm); //초기값 설정
 						list.selbox(data.result.resultlist, $('#selectgu')); //드롭박스 데이터 채움
 					}else{
 						console.log('error');
@@ -180,7 +181,7 @@ function createMarkerImage(markerSize, offset, spriteOrigin) {
 				}//slist 끝
 				
 				,sang : function(data){
-					var param = JSON.stringify({sggnm:data.value});
+					var param = JSON.stringify({sggNm:data.value});
 					console.log('실행');
 					ajax.post('/di/getSangList.gistar', param, main.tet);
 					//document.sangsend.action = '/di/getSangList.gistar';
@@ -189,6 +190,7 @@ function createMarkerImage(markerSize, offset, spriteOrigin) {
 				}//sang 끝
 				,tet : function(data){
 					console.log("여기"+data.result.resultlist[0].xcrd);
+					$('#test').html(data.result.resultlist[0].xcrd);
 					list.selbox2(data.result.resultlist, $('#objec')); //드롭박스 데이터 채움
 				}
 				
