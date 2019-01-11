@@ -18,7 +18,7 @@
     </select>
     </form>
     <input type="button" id="lmit10" onclick="main.sang(this)" value="{{name}}">
-	
+	<div id="objec"></div>
 	<div id="map" style="width:1400px; height:800px;"></div>
 
 	<!-- <script type="text/javascript" src="//api.ollehmap.com:10083/v3/olleh/mapAPI.js?key=T2xsZWhNYXBJTjAwNTM6bXUyMjY3MUhrMA=="></script> -->
@@ -180,7 +180,7 @@ function createMarkerImage(markerSize, offset, spriteOrigin) {
 				}//slist 끝
 				
 				,sang : function(data){
-					var param = JSON.stringify({"sggnm":data.value});
+					var param = JSON.stringify({sggnm:data.value});
 					console.log('실행');
 					ajax.post('/di/getSangList.gistar', param, main.tet);
 					//document.sangsend.action = '/di/getSangList.gistar';
@@ -188,7 +188,8 @@ function createMarkerImage(markerSize, offset, spriteOrigin) {
 					
 				}//sang 끝
 				,tet : function(data){
-					console.log("ehlas"+data.result.resultlist);
+					console.log("여기"+data.result.resultlist[0].xcrd);
+					list.selbox2(data.result.resultlist, $('#objec')); //드롭박스 데이터 채움
 				}
 				
 			}//main 끝

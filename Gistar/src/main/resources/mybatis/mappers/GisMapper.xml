@@ -21,11 +21,11 @@
 		 SELECT
 			 sgg_cd
 			,sgg_nm
-			,substr(xcrd, 1, 9) xcrd
-			,substr(ycrd, 1, 10) ycrd
+			,xcrd::numeric
+			,ycrd::numeric
 		 FROM TRA_XYCRD
 		 WHERE sgg_nm = #{sggnm}
-		 LIMIT 1
+		 LIMIT 10
 	]]>
 	</select>
 	

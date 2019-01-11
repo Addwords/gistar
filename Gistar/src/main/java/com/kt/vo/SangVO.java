@@ -20,8 +20,8 @@ public class SangVO {
     private String dong_info;       //건물동
     private String floor_info;      //건물동
     private String ho_info;         //건물동
-    private String xcrd;            //위도
-    private String ycrd;            //경도
+    private double xcrd;            //위도
+    private double ycrd;            //경도
     
 	public int getTra_num() {
 		return tra_num;
@@ -125,16 +125,16 @@ public class SangVO {
 	public void setHo_info(String ho_info) {
 		this.ho_info = ho_info;
 	}
-	public String getXcrd() {
+	public double getXcrd() {
 		return xcrd;
 	}
-	public void setXcrd(String xcrd) {
+	public void setXcrd(double xcrd) {
 		this.xcrd = xcrd;
 	}
-	public String getYcrd() {
+	public double getYcrd() {
 		return ycrd;
 	}
-	public void setYcrd(String ycrd) {
+	public void setYcrd(double ycrd) {
 		this.ycrd = ycrd;
 	}
 	

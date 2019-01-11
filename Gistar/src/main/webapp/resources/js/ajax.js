@@ -31,11 +31,11 @@ var ajax = (function(){ //post, cmm
 		post : function(path, jsonObj, successFunction, failFunction, initData){
 				type = 'POST';
 				//console.log(jsonObj);
-				if(initData && initData.enctype == 'multipart/form-data'){ // file upload 제외
+				/*if(initData && initData.enctype == 'multipart/form-data'){ // file upload 제외
 			        jsonObj = jsonObj;
 			      }else if(!(initData && initData.hasOwnProperty('objectFlag'))){// form 제외
 			        jsonObj = (jsonObj) ? JSON.stringify(jsonObj) : '';
-			      }
+			      }*/
 				initData = $.extend({}, defaultOp, initData);
 				ajax.cmm(type, path, jsonObj, successFunction, failFunction, initData);
 		}//post End
@@ -135,6 +135,21 @@ var list = (function(){
 				sstr = "코드가 없습니다."
 			}
 			selectid.html(sstr);
+		}
+		
+		//테스트 
+		,selbox2 : function(data, selectid){
+			var sstr2 = '';
+			if(data && data.length > 0){
+				//데이터양만큼 
+				for(i in data){
+					var d = data[i];
+					sstr2 += '<p id="'+d.xcrd+'">'+d.ycrd+'feesese</p>';
+				}
+			}else{
+				sstr2 = "코드가 없습니다."
+			}
+			selectid.html(sstr2);
 		}
 	}
 })();
