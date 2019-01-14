@@ -42,22 +42,19 @@ public class GisServiceImpl implements GisService{
 		return resultMap;
 	}
 
-
+	//상권정보 가져오기
 	@Override
 	public Map<String, Object> getSangList(SangVO sangVO) {
 		log.info("getSangList : {}", gisMapper.toString());
 		
 		Map<String,Object> resultMap = new HashMap<String, Object>();
-			System.out.println("서비스"+sangVO.toString());
 		List<SangVO> resultlist = gisMapper.getSangList(sangVO);
-		System.out.println("서비스2"+sangVO.toString());
-		System.out.println(resultlist.toString());
 		resultMap.put("resultlist", resultlist);
 		
 		return resultMap;
 	}
 
-
+	//서울시군구 정보 가져오기
 	@Override
 	public Map<String, Object> getSeoulList() {
 		Map<String,Object> resultMap = new HashMap<String, Object>();
@@ -67,7 +64,15 @@ public class GisServiceImpl implements GisService{
 		return resultMap;
 	}
 
-
+	//서울시군구 경계정보 가져오기
+	@Override
+	public Map<String, Object> getSeoulGeom() {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<guVO> resultlist = gisMapper.getSeoulGeom();
+		//System.out.println(resultlist.toString());
+		resultMap.put("resultlist", resultlist);
+		return resultMap;
+	}
 	
 	
 }

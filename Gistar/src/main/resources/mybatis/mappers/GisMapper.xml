@@ -23,10 +23,11 @@
 			,sgg_cd
 			,sgg_nm
 			,admdong_nm
-			,xcrd::numeric
+			,xcrd::numeric --map함수에 적용될때는 숫자여야하므로 numeric으로 casting
 			,ycrd::numeric
 		 FROM TRA_XYCRD
-		 WHERE sgg_nm = #{sggNm}
+		 WHERE  sido_cd = '11'
+		   AND  sgg_nm = #{sggNm} --코드 가져오는 방법 찾는중
 		 LIMIT 10
 	]]>
 	</select>
@@ -43,6 +44,18 @@
 	]]>
 	</select>
 	
-
+	<!-- 서울시 종로구 경계영역 가져오기 -->
+	<select id="getSeoulGeom" resultType="com.kt.vo.guVO">
+	<!-- VO랑 변수명 맞춰야함 -->
+	<!-- VO는 언더바 빼야함-->
+	<![CDATA[
+		SELECT   sig_cd
+				,xcrd
+				,ycrd
+		FROM sig_jongro
+		WHERE sig_cd = '11110'
+		
+	]]>
+	</select>
 
 </mapper>

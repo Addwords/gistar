@@ -46,7 +46,7 @@ var ajax = (function(){ //post, cmm
 					,type : method
 					,data : jsonObj
 					,success : function(data){
-						console.log("아작스"+jsonObj);
+						//console.log("아작스"+jsonObj);
 						if(data.errorYn == 'N'){
 							if(successFunction !== undefined && successFunction !== ''){
 								successFunction(data);
@@ -150,8 +150,8 @@ var list = (function(){
 					
 					positions.push({title:d.traNm, latlng: new daum.maps.LatLng(d.xCrd, d.yCrd)});
 						}
-				
 				console.log(positions);
+				//console.log(positions);
 			}else{
 				sstr2 = "코드가 없습니다."
 			}

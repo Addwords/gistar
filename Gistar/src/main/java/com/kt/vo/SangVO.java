@@ -22,6 +22,8 @@ public class SangVO {
     private String hoInfo;         //건물동
     private double xCrd;           //위도
     private double yCrd;           //경도
+    private String geom; 		   //Geometry
+    
     
 	public int getTraNum() {
 		return traNum;
@@ -137,5 +139,13 @@ public class SangVO {
 	public void setyCrd(double yCrd) {
 		this.yCrd = yCrd;
 	}
+	public String getGeom() {
+		return geom;
+	}
+	public void setGeom(String geom) {
+		this.geom = geom;
+	}
    	
+	
+	
 }

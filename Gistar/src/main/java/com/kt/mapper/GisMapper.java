@@ -8,10 +8,16 @@ import com.kt.vo.guVO;
 
 public interface GisMapper {
 	
-	//게시글 list
+	// 샘플
 	List<GisVO> selectList();
+	
+	//상권정보 가져오기(10건)
 	List<SangVO> getSangList(SangVO sangVO);
+	
+	//시군구 정보 가져오기(서울 - 25개 구)
 	List<SangVO> getSeoulList();
-	//List<SangVO> getSangList();
+	
+	//시군구 경계영역 정보 가져오기(서울 종로구)
+	List<guVO> getSeoulGeom();
 	
 }
