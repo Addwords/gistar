@@ -3,12 +3,12 @@ package com.kt.vo;
 
 public class guVO {
 
-	private String sigCd;          		//시군구코드 
+	private String sigCd;          	  //시군구코드 
 	private String sigEngNm;          //시군구명 
 	private String sigKorNm;          //시군구명 
-	private String geom; 				//geometry
-	private double xCrd; //위도
-	private double yCrd; //경도
+	private String geom; 			  //geometry
+	private double xCrd;              //위도
+	private double yCrd;              //경도
 	
 	public String getSigCd() {
 		return sigCd;

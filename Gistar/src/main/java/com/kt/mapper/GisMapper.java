@@ -18,6 +18,6 @@ public interface GisMapper {
 	List<SangVO> getSeoulList();
 	
 	//시군구 경계영역 정보 가져오기(서울 종로구)
-	List<guVO> getSeoulGeom();
+	List<guVO> getSeoulGeom(guVO guVO);
 	
 }

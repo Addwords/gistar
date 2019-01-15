@@ -10,7 +10,7 @@
 <h1>
 	Hello kakao!  
 </h1>
-	<button onclick="backup();">Home</button>
+	<button onclick="backup();" hidden="">Home</button>
 	
 
     <select ng-model="name" id="selectgu" style="height:30px;" onchange="main.sang(this)" name="sggnm">
@@ -18,7 +18,7 @@
     </select>
 
     <input type="button" id="lmit10" value="{{name}}" readonly="readonly">
-    <input type="text" value="{{name.id}}" >
+    <!-- <input type="text" value="{{name}}" > -->
 	<div id="map" style="width:1400px; height:600px;"></div>
 	<div id="objec"></div>
 	<!-- <script type="text/javascript" src="//api.ollehmap.com:10083/v3/olleh/mapAPI.js?key=T2xsZWhNYXBJTjAwNTM6bXUyMjY3MUhrMA=="></script> -->
@@ -83,13 +83,13 @@ var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerSt
 					        level: 7 // 지도의 확대 레벨
 					    };
 					map = new daum.maps.Map(mapContainer, mapOption); 
-					
+					console.log(data.value);
 					//AJAX로 JSON형태를 보낼때 컨트롤러는 json를 string으로 인식하지 못하기 때문에 JSON.stringify()해주어야 함.
-					var param = JSON.stringify({sggNm:data.value});
-					
+					var param = JSON.stringify({sggCd:data.value});
+					var lparam = JSON.stringify({sigCd:data.value});
 					positions = [];
 					ajax.post('/di/getSangList.gistar', param, main.tet);
-
+					main.whdfh(lparam);
 				}
 
 				//불러온 상권정보 마커표시
@@ -121,12 +121,12 @@ var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerSt
 				    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
 				    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
 					map.setBounds(bounds);
-					console.log(marker);
-					main.whdfh();
+					
 				}//tet끝
 				
-				,whdfh : function(){
-					ajax.post('/di/getSeoulGeom.gistar', {}, function(data){
+				,whdfh : function(param){
+					console.log(param);
+					ajax.post('/di/getSeoulGeom.gistar', param, function(data){
 						
 						if(data.result && data.result != ''){
 							main.poly(data.result.resultlist);
@@ -150,7 +150,7 @@ var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerSt
 						sstr = "코드가 없습니다."
 					}
 					//console.log(data.result.resultlist[0].xCrd); //초기값 설정
-					console.log(polygonPath); //초기값 설정
+					//console.log(polygonPath); //초기값 설정
 					// 다각형을 구성하는 좌표 배열입니다. 이 좌표들을 이어서 다각형을 표시합니다
 					 /* var polygonPath = [
 					    new daum.maps.LatLng(33.45133510810506, 126.57159381623066),
@@ -164,11 +164,11 @@ var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerSt
 					var polygon = new daum.maps.Polygon({
 					    path: polygonPath, // 그려질 다각형의 좌표 배열입니다
 					    strokeWeight: 3, // 선의 두께입니다
-					    strokeColor: '#39DE2A', // 선의 색깔입니다
+					    strokeColor: '#FF0000', // 선의 색깔입니다
 					    strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
 					    strokeStyle: 'longdash', // 선의 스타일입니다
-					    fillColor: '#A2FF99', // 채우기 색깔입니다
-					    fillOpacity: 0.7 // 채우기 불투명도 입니다
+					    fillColor: '#FFFFFF', // 채우기 색깔입니다
+					    fillOpacity: 0.4 // 채우기 불투명도 입니다
 					});
 
 					// 지도에 다각형을 표시합니다

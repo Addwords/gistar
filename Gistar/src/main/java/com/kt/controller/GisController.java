@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kt.services.GisService;
 import com.kt.vo.SangVO;
+import com.kt.vo.guVO;
 
 @Controller(value="com.kt.controller.GisController")
 public class GisController {
@@ -88,12 +89,12 @@ public class GisController {
 		
 		//서울시 종로구 정보 가져오기
 				@RequestMapping(value="/di/getSeoulGeom.gistar", method = RequestMethod.POST)
-				public @ResponseBody Map<String, Object> getSeoulGeom(){
+				public @ResponseBody Map<String, Object> getSeoulGeom(@RequestBody guVO guVO){
 					Map<String, Object> map = new HashMap<String, Object>();
 					
 					try {
 						map.put("errorYn", "N");
-						map.put("result", gisService.getSeoulGeom());
+						map.put("result", gisService.getSeoulGeom(guVO));
 						
 					}catch(Exception e) {
 						e.printStackTrace();

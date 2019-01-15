@@ -66,9 +66,9 @@ public class GisServiceImpl implements GisService{
 
 	//서울시군구 경계정보 가져오기
 	@Override
-	public Map<String, Object> getSeoulGeom() {
+	public Map<String, Object> getSeoulGeom(guVO guVO) {
 		Map<String,Object> resultMap = new HashMap<String, Object>();
-		List<guVO> resultlist = gisMapper.getSeoulGeom();
+		List<guVO> resultlist = gisMapper.getSeoulGeom(guVO);
 		//System.out.println(resultlist.toString());
 		resultMap.put("resultlist", resultlist);
 		return resultMap;

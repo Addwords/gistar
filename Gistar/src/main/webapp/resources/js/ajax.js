@@ -129,7 +129,7 @@ var list = (function(){
 				//데이터양만큼 
 				for(i in data){
 					var d = data[i];
-					sstr += '<option id="'+d.sggCd+'">'+d.sggNm+'</option>';
+					sstr += '<option value="'+d.sggCd+'">'+d.sggNm+'</option>';
 				}
 			}else{
 				sstr = "코드가 없습니다."

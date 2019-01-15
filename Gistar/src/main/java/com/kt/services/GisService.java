@@ -3,6 +3,7 @@ package com.kt.services;
 import java.util.Map;
 
 import com.kt.vo.SangVO;
+import com.kt.vo.guVO;
 
 public interface GisService {
 
@@ -17,7 +18,7 @@ public interface GisService {
 	Map<String, Object> getSeoulList();
 
 	//종로구 경계영역 
-	Map<String, Object> getSeoulGeom();
+	Map<String, Object> getSeoulGeom(guVO guVO);
 
 	//Map<String, Object> getSangList(SangVO sangVO);
 	
