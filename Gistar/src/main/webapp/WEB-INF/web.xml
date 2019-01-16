@@ -66,7 +66,7 @@
 	<!-- 첫화면 설정 -->
 	<!-- 타일즈를 설정하면서 URI매핑관련 오류 있었음 -->
     <welcome-file-list>
-    	<welcome-file>/ollyer.gistar</welcome-file>
+    	<welcome-file>/oltest.gistar</welcome-file>
     </welcome-file-list>
 
 	<!-- 에러페이지 설정 -->

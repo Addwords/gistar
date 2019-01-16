@@ -6,6 +6,12 @@
 <script type="text/javascript" src="/resources/js/ajax.js"></script>
 <script type="text/javascript" src="/resources/js/angular.min.js"></script>
 <script type="text/javascript" src="/resources/js/OpenLayers.js"></script>
+<script type="text/javascript" src="/resources/js/OpenLayers.js"></script>
+<script type="text/javascript" src="/resources/js/app.js"></script>
+<script type="text/javascript" src="/resources/js/controller.js"></script>
+<script type="text/javascript" src="/resources/js/service.js"></script>
+
+
 
 <!-- CSS파일 -->
 <link rel="stylesheet" type="text/css" href="/resources/css/base.css"/>

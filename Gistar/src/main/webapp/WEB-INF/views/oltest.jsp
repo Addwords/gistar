@@ -8,7 +8,7 @@
 <body>
 <div ng-app="myApp" ng-controller="myCtrl">
 <h1>
-	Hello kakao!  
+	Hello kakao! <a href="/sample.gistar">이동</a> 
 </h1>
 	<button onclick="backup();" hidden="">Home</button>
 	
