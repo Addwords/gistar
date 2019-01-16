@@ -29,7 +29,7 @@
     <script src="../OpenLayers.js"></script>
   </head>
   <body>
-    <h1 id="title">OpenLayers 2 Spherical Mercator Example</h1>
+    <h1 id="title">OpenLayers 2 Spherical Mercator <a href="/WEB-INF/openLayers/sample/sample.html">Example</a></h1>
     <div id="map" class="smallmap"></div>
     <script type="text/javascript">
 	

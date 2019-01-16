@@ -33,5 +33,10 @@ public class UrlController {
 			
 			return "oltest";
 		}
-	
+		//테스트
+				@RequestMapping(value = "/ollyer.gistar", method = RequestMethod.GET)
+				public String ollyer() {
+					
+					return "sample";
+				}
 }
