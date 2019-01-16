@@ -31,5 +31,9 @@
       <put-attribute name="body" value="/WEB-INF/views/oltest.jsp" />
     </definition>
     
+    <definition name="openLayers" extends="rootile">
+      <put-attribute name="body" value="/WEB-INF/openLayers/sample/sample.html" />
+    </definition>
+    
     
 </tiles-definitions>

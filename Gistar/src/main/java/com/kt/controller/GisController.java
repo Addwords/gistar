@@ -107,7 +107,7 @@ public class GisController {
 		}
 		
 		//서울시 읍면동 경계영역정보 가져오기
-		@RequestMapping(value="/di/getSeoulGeom.gistar", method = RequestMethod.POST)
+		@RequestMapping(value="/di/getEmdGeom.gistar", method = RequestMethod.POST)
 		public @ResponseBody Map<String, Object> getEmdGeom(@RequestBody guVO guVO){
 			Map<String, Object> map = new HashMap<String, Object>();	
 			try {
