@@ -15,73 +15,64 @@
             bottom: 0px;
             left: 2px;
             right: inherit;
-            width: 400px;
+            width: 400px; 
         }
         /* conditionally position control differently for Google Maps */
         .olForeignContainer div.olControlMousePosition {
             bottom: 28px;
         }
         #map {
-           width: 1300px;
+        	width: 1300px;
             height: 800px;
         }
     </style>
-
-    <!-- <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script> -->
-
-    <!-- <script src="/resources/js/OpenLayers.js"></script> -->
+    <script src="../OpenLayers.js"></script>
   </head>
   <body>
     <h1 id="title">OpenLayers 2 Spherical Mercator Example</h1>
-
     <div id="map" class="smallmap"></div>
-
     <script type="text/javascript">
-
+	
+    // map 설정> 그 다음 addLayer 
     var map = new OpenLayers.Map({
         div: "map",
-        projection: "EPSG:900913",
+        projection: "EPSG:900913", 
         displayProjection: "EPSG:4326",
-        numZoomLevels: 10,
+        numZoomLevels: 18,
         // approximately match Google's zoom animation
-        zoomDuration: 4
+        zoomDuration: 10
     });
 
-    // create Bing layers
-
-    // API key for http://openlayers.org. Please get your own at
-    // http://bingmapsportal.com/ and use that instead.
-    var apiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
-
-    var vehyb = new OpenLayers.Layer.Bing({
-        key: apiKey,
-        type: "AerialWithLabels",
-        wrapDateLine: true
-    });
-
-    // create OSM layers
+    // open street map 생성
     var mapnik = new OpenLayers.Layer.OSM();
 
     // create a vector layer for drawing
     var vector = new OpenLayers.Layer.Vector("Editable Vectors");
+    
+    // 폴리곤 그리기 위한 포맷 설정
     var format = new OpenLayers.Format.WKT();
+    
+    // map에 OSM과 vector 레이어 추가
     map.addLayers([
-        mapnik, vector
+    	mapnik, vector
     ]);
-    //map.addControl(new OpenLayers.Control.LayerSwitcher());
-    map.addControl(new OpenLayers.Control.EditingToolbar(vector));
-    map.addControl(new OpenLayers.Control.Permalink());
-    map.addControl(new OpenLayers.Control.MousePosition());
+    
+    // map 컨트롤 추가 
+    //map.addControl(new OpenLayers.Control.LayerSwitcher());     // 우측 지도변경    주석처리
+    map.addControl(new OpenLayers.Control.EditingToolbar(vector));  // 우측 상단 4개 컨트롤 toolbar
+    //map.addControl(new OpenLayers.Control.Permalink());        // 맵 다시 생성   주석처리 
+    map.addControl(new OpenLayers.Control.MousePosition());       
     //map.zoomToMaxExtent();
     map.zoomToExtent(
             new OpenLayers.Bounds(
-                123.662109, 34.628906, 130.75928, 38.77295
+                123.662109, 34.628906, 130.75928, 38.77295       // 대한민국 범위 설정
             ).transform(map.displayProjection, map.projection)
         );
-    var encoded = 'MULTIPOLYGON((126.795989 37.448523, 126.962042 37.757249, 127.112698 37.160408, 126.795989 37.448523))';
+    var encoded = 'MULTIPOLYGON((13696686.97097 4637161.50812, 14509976.95181 4765575.71562, 14273939.40850 3988975.50835))';
     vector.addFeatures(format.read(encoded));
     </script>
   </body>
 </html>
+
 
 
