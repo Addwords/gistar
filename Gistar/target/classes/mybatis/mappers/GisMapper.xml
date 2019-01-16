@@ -58,4 +58,19 @@
 	]]>
 	</select>
 
+
+	<!-- 선택된 구의 동정보 경계영역 가져오기 -->
+	<select id="getEmdGeom" parameterType="com.kt.vo.guVO" resultType="com.kt.vo.EmdVO">
+	<!-- VO랑 변수명 맞춰야함 -->
+	<!-- VO는 언더바 빼야함-->
+	<![CDATA[
+		SELECT   emd_cd
+				,emd_kor_nm
+				,xcrd
+				,ycrd
+		FROM emd_xycrd
+		WHERE emd_cd like concat(#{sigCd},'%')
+		
+	]]>
+	</select>
 </mapper>

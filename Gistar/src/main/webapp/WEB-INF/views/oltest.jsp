@@ -85,11 +85,11 @@ var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerSt
 					map = new daum.maps.Map(mapContainer, mapOption); 
 					console.log(data.value);
 					//AJAX로 JSON형태를 보낼때 컨트롤러는 json를 string으로 인식하지 못하기 때문에 JSON.stringify()해주어야 함.
-					var param = JSON.stringify({sggCd:data.value});
-					var lparam = JSON.stringify({sigCd:data.value});
-					positions = [];
+					var param = JSON.stringify({sggCd:data.value}); //마커표시를 위해 시군구코드 json으로 담기 --통합예정
+					var lparam = JSON.stringify({sigCd:data.value});//경계영역표시를 위해 시군구코드 json으로 담기 --통합예정
+					positions = []; //상권정보의 위치와 상호명을 담을 배열 초기화 --선택한 구만 나와야 하기때문
 					ajax.post('/di/getSangList.gistar', param, main.tet);
-					main.whdfh(lparam);
+					main.gugeom(lparam);
 				}
 
 				//불러온 상권정보 마커표시
@@ -124,7 +124,8 @@ var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerSt
 					
 				}//tet끝
 				
-				,whdfh : function(param){
+				//선택한 구 영역정보 표시하기
+				,gugeom : function(param){
 					console.log(param);
 					ajax.post('/di/getSeoulGeom.gistar', param, function(data){
 						
@@ -136,6 +137,7 @@ var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerSt
 					
 					
 				}
+				//
 				,poly : function(data){
 					if(data && data.length > 0){
 						polygonPath = [];
@@ -172,7 +174,7 @@ var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerSt
 					});
 
 					// 지도에 다각형을 표시합니다
-					console.log("찍냐");
+					console.log("완료");
 					polygon.setMap(map);
 				}
 				

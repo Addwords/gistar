@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.kt.mapper.GisMapper;
 import com.kt.services.GisService;
+import com.kt.vo.EmdVO;
 import com.kt.vo.GisVO;
 import com.kt.vo.SangVO;
 import com.kt.vo.guVO;
@@ -69,6 +70,15 @@ public class GisServiceImpl implements GisService{
 	public Map<String, Object> getSeoulGeom(guVO guVO) {
 		Map<String,Object> resultMap = new HashMap<String, Object>();
 		List<guVO> resultlist = gisMapper.getSeoulGeom(guVO);
+		//System.out.println(resultlist.toString());
+		resultMap.put("resultlist", resultlist);
+		return resultMap;
+	}
+
+	@Override
+	public Map<String, Object> getEmdGeom(guVO guVO) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<EmdVO> resultlist = gisMapper.getEmdGeom(guVO);
 		//System.out.println(resultlist.toString());
 		resultMap.put("resultlist", resultlist);
 		return resultMap;

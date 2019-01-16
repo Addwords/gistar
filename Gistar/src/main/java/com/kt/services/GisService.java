@@ -17,9 +17,10 @@ public interface GisService {
 	//서울시 구 정보 List
 	Map<String, Object> getSeoulList();
 
-	//종로구 경계영역 
+	//서울시 경계영역 
 	Map<String, Object> getSeoulGeom(guVO guVO);
 
-	//Map<String, Object> getSangList(SangVO sangVO);
+	//서울시 읍면동 경계영역
+	Map<String, Object> getEmdGeom(guVO guVO);
 	
 }

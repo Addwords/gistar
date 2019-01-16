@@ -67,7 +67,7 @@ public class GisController {
 		}
 		
 		
-		//서울시 구 정보 가져오기
+		//서울시 구 코드랑 명 가져오기
 		@RequestMapping(value="/di/getSeoulList.gistar", method = RequestMethod.POST)
 		public @ResponseBody Map<String, Object> getSeoulList(){
 			
@@ -87,22 +87,45 @@ public class GisController {
 			return map;
 		}
 		
-		//서울시 종로구 정보 가져오기
-				@RequestMapping(value="/di/getSeoulGeom.gistar", method = RequestMethod.POST)
-				public @ResponseBody Map<String, Object> getSeoulGeom(@RequestBody guVO guVO){
-					Map<String, Object> map = new HashMap<String, Object>();
-					
-					try {
-						map.put("errorYn", "N");
-						map.put("result", gisService.getSeoulGeom(guVO));
-						
-					}catch(Exception e) {
-						e.printStackTrace();
-						log.debug("{}",e.getMessage());
-						map.put("errorYn", "Y");
-						map.put("result", "ERROR");
-					}
-					
-					return map;
-				}
+		//서울시 시군구 경계영역정보 가져오기
+		@RequestMapping(value="/di/getSeoulGeom.gistar", method = RequestMethod.POST)
+		public @ResponseBody Map<String, Object> getSeoulGeom(@RequestBody guVO guVO){
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			try {
+				map.put("errorYn", "N");
+				map.put("result", gisService.getSeoulGeom(guVO));
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+				log.debug("{}",e.getMessage());
+				map.put("errorYn", "Y");
+				map.put("result", "ERROR");
+			}
+			
+			return map;
+		}
+		
+		//서울시 읍면동 경계영역정보 가져오기
+		@RequestMapping(value="/di/getSeoulGeom.gistar", method = RequestMethod.POST)
+		public @ResponseBody Map<String, Object> getEmdGeom(@RequestBody guVO guVO){
+			Map<String, Object> map = new HashMap<String, Object>();	
+			try {
+				map.put("errorYn", "N");
+				map.put("result", gisService.getEmdGeom(guVO));
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+				log.debug("{}",e.getMessage());
+				map.put("errorYn", "Y");
+				map.put("result", "ERROR");
+			}
+			
+			return map;
+		}
+		
+		
+		
+		
+		
 }

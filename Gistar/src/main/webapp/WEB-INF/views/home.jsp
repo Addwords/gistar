@@ -1,87 +1,87 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-	<title>GISTAR</title>
-</head>
-<body>
-<h1>
-	Hello Google!
-	<a href="/oltest.gistar">Test</a>  
-</h1>
-내이름은 <p id='nam'></p>
-나이는 <p id='ag'></p>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>OpenLayers: Spherical Mercator</title>
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
+    <!--[if lte IE 6]>
+        <link rel="stylesheet" href="../theme/default/ie6-style.css" type="text/css" />
+    <![endif]-->
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <style type="text/css">
+        .olControlAttribution { 
+            bottom: 0px;
+            left: 2px;
+            right: inherit;
+            width: 400px;
+        }
+        /* conditionally position control differently for Google Maps */
+        .olForeignContainer div.olControlMousePosition {
+            bottom: 28px;
+        }
+        #map {
+           width: 1300px;
+            height: 800px;
+        }
+    </style>
 
-<div id="clickLatlng"></div>
+    <!-- <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script> -->
 
-<input type="button" id="lmit10" onclick="">
+    <!-- <script src="/resources/js/OpenLayers.js"></script> -->
+  </head>
+  <body>
+    <h1 id="title">OpenLayers 2 Spherical Mercator Example</h1>
 
-<script type="text/javascript">
-$(function(){
-	main.init();
-	
-});
-var main = (function(){
-	
-	return{
-		init : function(){
-			var htmstr = '';
-			console.log("init실행.");
-			ajax.post('/di/selectList.gistar', {}, main.postcnt);
-		}
-		,postcnt : function(data){
-			if(data.result && data.result != ''){
-				//var pcnt = validVal(data.result.listcnt) ? data.result.listcnt : 0;
-				//var pcnt = data.result.listcnt ? data.result.listcnt : 0;
-				
-				//$('.postcnt b').text(pcnt.toLocaleString());
-				
-				list.set(data.result.resultlist, $('#nam'));
-			}
-		}
-	}
-})();
+    <div id="map" class="smallmap"></div>
 
-</script>
-	<div id="map" style="width:100%;height:800px;"></div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ddaeded8e5133d083b78618ed700a827&libraries=LIBRARY"></script>
-	<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ddaeded8e5133d083b78618ed700a827&libraries=LIBRARY"></script> -->
-	<script>
-		var container = document.getElementById('map');
-		var options = {
-			//center: new daum.maps.LatLng(33.450701, 126.570667) //kakao
-			center: new daum.maps.LatLng(37.482559, 127.002119)
-			,level: 2
-		};
+    <script type="text/javascript">
 
-		var map = new daum.maps.Map(container, options);
-		
-		// 지도를 클릭한 위치에 표출할 마커입니다
-		var marker = new daum.maps.Marker({ 
-		    // 지도 중심좌표에 마커를 생성합니다 
-		    position: map.getCenter() 
-		}); 
-		// 지도에 마커를 표시합니다
-		marker.setMap(map);
+    var map = new OpenLayers.Map({
+        div: "map",
+        projection: "EPSG:900913",
+        displayProjection: "EPSG:4326",
+        numZoomLevels: 10,
+        // approximately match Google's zoom animation
+        zoomDuration: 4
+    });
 
-		// 지도에 클릭 이벤트를 등록합니다
-		// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-		daum.maps.event.addListener(map, 'click', function(mouseEvent) {        
-		    
-		    // 클릭한 위도, 경도 정보를 가져옵니다 
-		    var latlng = mouseEvent.latLng; 
-		    
-		    // 마커 위치를 클릭한 위치로 옮깁니다
-		    marker.setPosition(latlng);
-		    
-		    var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-		    message += '경도는 ' + latlng.getLng() + ' 입니다';
-		    
-		    var resultDiv = document.getElementById('clickLatlng'); 
-		    resultDiv.innerHTML = message;
-		    
-		});
-	</script>
-</body>
+    // create Bing layers
+
+    // API key for http://openlayers.org. Please get your own at
+    // http://bingmapsportal.com/ and use that instead.
+    var apiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+
+    var vehyb = new OpenLayers.Layer.Bing({
+        key: apiKey,
+        type: "AerialWithLabels",
+        wrapDateLine: true
+    });
+
+    // create OSM layers
+    var mapnik = new OpenLayers.Layer.OSM();
+
+    // create a vector layer for drawing
+    var vector = new OpenLayers.Layer.Vector("Editable Vectors");
+    var format = new OpenLayers.Format.WKT();
+    map.addLayers([
+        mapnik, vector
+    ]);
+    //map.addControl(new OpenLayers.Control.LayerSwitcher());
+    map.addControl(new OpenLayers.Control.EditingToolbar(vector));
+    map.addControl(new OpenLayers.Control.Permalink());
+    map.addControl(new OpenLayers.Control.MousePosition());
+    //map.zoomToMaxExtent();
+    map.zoomToExtent(
+            new OpenLayers.Bounds(
+                123.662109, 34.628906, 130.75928, 38.77295
+            ).transform(map.displayProjection, map.projection)
+        );
+    var encoded = 'MULTIPOLYGON((126.795989 37.448523, 126.962042 37.757249, 127.112698 37.160408, 126.795989 37.448523))';
+    vector.addFeatures(format.read(encoded));
+    </script>
+  </body>
 </html>
+
+
