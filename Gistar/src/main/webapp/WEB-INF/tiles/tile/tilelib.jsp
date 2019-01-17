@@ -6,10 +6,9 @@
 <script type="text/javascript" src="/resources/js/ajax.js"></script>
 <script type="text/javascript" src="/resources/js/angular.min.js"></script>
 <script type="text/javascript" src="/resources/js/OpenLayers.js"></script>
-<script type="text/javascript" src="/resources/js/OpenLayers.js"></script>
-<script type="text/javascript" src="/resources/js/app.js"></script>
-<script type="text/javascript" src="/resources/js/controller.js"></script>
-<script type="text/javascript" src="/resources/js/service.js"></script>
+<script type="text/javascript" src="/resources/openLayers/sample/app.js"></script>
+<script type="text/javascript" src="/resources/openLayers/sample/sample.controller.js"></script>
+<script type="text/javascript" src="/resources/openLayers/sample/sample.service.js"></script>
 
 
 

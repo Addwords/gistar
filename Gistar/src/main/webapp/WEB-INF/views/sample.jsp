@@ -6,12 +6,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div ng-app="asdf" ng-controller="olController">
+<div ng-app="ol" ng-controller="olController">
 	
-		<div style="width: 1120px;">
-		<input type="text" ng-model="awd"></input>
-			<textarea rows="" cols="">{{awd}}</textarea>
-		</div>
+
 		{{test}}
 </div>
 </body>
