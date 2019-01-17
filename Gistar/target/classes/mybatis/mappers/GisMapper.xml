@@ -50,9 +50,8 @@
 	<!-- VO는 언더바 빼야함-->
 	<![CDATA[
 		SELECT   sig_cd
-				,xcrd
-				,ycrd
-		FROM sig_jongro
+				,st_astext(st_transform(geom,3857)) geom
+		FROM tl_scco_sig
 		WHERE sig_cd = #{sigCd}
 		
 	]]>
@@ -66,9 +65,8 @@
 	<![CDATA[
 		SELECT   emd_cd
 				,emd_kor_nm
-				,xcrd
-				,ycrd
-		FROM emd_xycrd
+				,st_astext(st_transform(geom,3857)) geom
+		FROM tl_scco_emd
 		WHERE emd_cd like concat(#{sigCd},'%')
 		
 	]]>

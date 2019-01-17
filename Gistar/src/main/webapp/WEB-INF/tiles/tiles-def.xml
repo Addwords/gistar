@@ -26,7 +26,7 @@
       <put-attribute name="pop" value="/WEB-INF/views/popup.jsp" />
     </definition>
     
-    
+    <!-- name=>URL -->
     <definition name="oltest" extends="rootile">
       <put-attribute name="body" value="/WEB-INF/views/oltest.jsp" />
     </definition>

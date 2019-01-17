@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -5,10 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>OpenLayers: Spherical Mercator</title>
-    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
-    <!--[if lte IE 6]>
-        <link rel="stylesheet" href="../theme/default/ie6-style.css" type="text/css" />
-    <![endif]-->
     <link rel="stylesheet" href="style.css" type="text/css">
     <style type="text/css">
         .olControlAttribution { 
@@ -33,39 +31,39 @@
     <div id="map" class="smallmap"></div>
     <script type="text/javascript">
 	
-    // map 설정> 그 다음 addLayer 
+    // map ì¤ì > ê·¸ ë¤ì addLayer 
     var map = new OpenLayers.Map({
         div: "map",
         projection: "EPSG:900913", 
         displayProjection: "EPSG:4326",
-        numZoomLevels: 18,
+        numZoomLevels: 10,
         // approximately match Google's zoom animation
         zoomDuration: 10
     });
 
-    // open street map 생성
+    // open street map ìì±
     var mapnik = new OpenLayers.Layer.OSM();
 
     // create a vector layer for drawing
     var vector = new OpenLayers.Layer.Vector("Editable Vectors");
     
-    // 폴리곤 그리기 위한 포맷 설정
+    // í´ë¦¬ê³¤ ê·¸ë¦¬ê¸° ìí í¬ë§· ì¤ì 
     var format = new OpenLayers.Format.WKT();
     
-    // map에 OSM과 vector 레이어 추가
+    // mapì OSMê³¼ vector ë ì´ì´ ì¶ê°
     map.addLayers([
     	mapnik, vector
     ]);
     
-    // map 컨트롤 추가 
-    //map.addControl(new OpenLayers.Control.LayerSwitcher());     // 우측 지도변경    주석처리
-    map.addControl(new OpenLayers.Control.EditingToolbar(vector));  // 우측 상단 4개 컨트롤 toolbar
-    //map.addControl(new OpenLayers.Control.Permalink());        // 맵 다시 생성   주석처리 
+    // map ì»¨í¸ë¡¤ ì¶ê° 
+    //map.addControl(new OpenLayers.Control.LayerSwitcher());     // ì°ì¸¡ ì§ëë³ê²½    ì£¼ìì²ë¦¬
+    map.addControl(new OpenLayers.Control.EditingToolbar(vector));  // ì°ì¸¡ ìë¨ 4ê° ì»¨í¸ë¡¤ toolbar
+    //map.addControl(new OpenLayers.Control.Permalink());        // ë§µ ë¤ì ìì±   ì£¼ìì²ë¦¬ 
     map.addControl(new OpenLayers.Control.MousePosition());       
     //map.zoomToMaxExtent();
     map.zoomToExtent(
             new OpenLayers.Bounds(
-                123.662109, 34.628906, 130.75928, 38.77295       // 대한민국 범위 설정
+                123.662109, 34.628906, 130.75928, 38.77295       // ëíë¯¼êµ­ ë²ì ì¤ì 
             ).transform(map.displayProjection, map.projection)
         );
     var encoded = 'MULTIPOLYGON((13696686.97097 4637161.50812, 14509976.95181 4765575.71562, 14273939.40850 3988975.50835))';

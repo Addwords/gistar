@@ -30,7 +30,7 @@
 	<script>
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
     mapOption = { 
-        center: new daum.maps.LatLng(37.5028500605707, 126.882759872564), // 지도의 중심좌표ㅈ
+        center: new daum.maps.LatLng(37.5028500605707, 126.882759872564), // 지도의 중심좌표
         level: 7 // 지도의 확대 레벨
     };
 
@@ -163,7 +163,8 @@ var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerSt
 					];  */
 
 					// 지도에 표시할 다각형을 생성합니다
-					var polygon = new daum.maps.Polygon({
+					var polygon = [];
+					polygon.push(new daum.maps.Polygon({
 					    path: polygonPath, // 그려질 다각형의 좌표 배열입니다
 					    strokeWeight: 3, // 선의 두께입니다
 					    strokeColor: '#FF0000', // 선의 색깔입니다
@@ -171,11 +172,12 @@ var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerSt
 					    strokeStyle: 'longdash', // 선의 스타일입니다
 					    fillColor: '#FFFFFF', // 채우기 색깔입니다
 					    fillOpacity: 0.4 // 채우기 불투명도 입니다
-					});
+					})
+					);
 
 					// 지도에 다각형을 표시합니다
 					console.log("완료");
-					polygon.setMap(map);
+					polygon[0].setMap(map);
 				}
 				
 				
