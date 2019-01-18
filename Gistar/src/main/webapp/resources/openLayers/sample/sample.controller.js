@@ -2,17 +2,34 @@
  * 테스트 중
  */
   angular.module('ol').controller('olController', function($scope, olService){
-	  var vm = this;
-	  var vector = new OpenLayers.Layer.Vector("Editable Vectors");
-	  var mapnik = new OpenLayers.Layer.OSM();
-  	  var format = new OpenLayers.Format.WKT();
-	  $scope.init = function(){
+	  //계속적으로 event가 발생하거나 변형되는 변수들 전역으로 분리
+	  var vm = this; //controller객체(자신)
+	  var vector = new OpenLayers.Layer.Vector("Editable Vectors"); //경계영역 초기화를 위해 전역선언
+	  var mapnik = new OpenLayers.Layer.OSM(); //지도관련lib? ollehmap으로 대체할것임
+  	  var format = new OpenLayers.Format.WKT(); //지도관련lib? ollehmap으로 대체할것임
+  	  var map = new OpenLayers.Map({ //초기 지도설정
+        div: "map", //적용할 div id
+        projection: "EPSG:900913",  //??? 
+        displayProjection: "EPSG:4326", //???
+        numZoomLevels: 7, // 초기 지도 확대 정도인데 아랫부분에 bound함수때매 덮어써짐
+        // approximately match Google's zoom animation
+        zoomDuration: 10,
+        eventListeners : {
+        	featureclick : function(e){
+        		
+        		alert("click"+e.title);
+        	}
+        }
+  	  });
+  	  
+	  $scope.init = function(){ // 최초실행
 		  
 		  $scope.createMap();
 		  vm.gge();
 	  }
-	  //테스트용 --> 드롭박스에 구정보 불러올예정
-	  vm.gge = function(){
+	 
+	  
+	  vm.gge = function(){ //드롭박스에 구정보 불러옴
 		  olService.seoulist().success(function(data) {
 			  console.log('list컨트롤러까지 왔음'+data.result.resultlist[0]);
 			  var sstr = '<option>::서울시</option>';
@@ -24,36 +41,27 @@
 		  });
 		  
 	  }
-	  //구코드 보내기용(value값은 name)
-	  vm.gcon = function(data){
+	  
+	  
+	  vm.gcon = function(data){ //구코드 보내기용(value값은 name)
 		  var param = JSON.stringify({sigCd:data.name});
 		  console.log(param);
 		  olService.seoulgeom(param).success(function(data) {
-			  console.log('geom컨트롤러까지 왔음'+data.result.resultlist[0]);
-				  var d = data.result.resultlist[0];
+			  console.log('geom컨트롤러까지 왔음'+data.result.resultlist);
+				  var d = data.result.resultlist;
 				  //console.log(d.geom);
-				  $scope.createPolygon(d.geom);
+				  $scope.createPolygon(d);
 		  });
 	  }
 	  
-	  $scope.createMap = function(){
-		// map ì¤ì > ê·¸ ë¤ì addLayer 
-		    var map = new OpenLayers.Map({
-		        div: "map",
-		        projection: "EPSG:900913", 
-		        displayProjection: "EPSG:4326",
-		        numZoomLevels: 7,
-		        // approximately match Google's zoom animation
-		        zoomDuration: 10
-		    });
-
-		    // open street map ìì±
-
-		    // create a vector layer for drawing
+	  $scope.event = function(){ //테스트 중
+		  
+	  }
+	  
+	  $scope.createMap = function(){ //맵 최초생성
 		    
-		    // í´ë¦¬ê³¤ ê·¸ë¦¬ê¸° ìí í¬ë§· ì¤ì 
-		    
-		    // mapì OSMê³¼ vector ë ì´ì´ ì¶ê°
+
+
 		    map.addLayers([
 		    	mapnik, vector
 		    ]);
@@ -75,13 +83,46 @@
 		    	vector.addFeatures(format.read(encoded));*/
 		  
 	 }
-	  $scope.createPolygon = function(geom){
+	  
+	  $scope.createPolygon = function(param){
+		  var temp = [];
+		  var polyfeatrue = [];
+		  var color = ['red','orange','yellow','lightgreen','green'];
+		   for(i in param){
+			   var d = param[i];
+			   polyfeatrue.push(format.read(d.geom));
+			   console.log(d.rand);
+			   polyfeatrue[i].style = {
+		    			 fillColor : color[i]
+			   			,fillOpacity : 0.9
+			   			,Title : d.emdKorNm
+			   			,label : d.emdKorNm
+			   			,strokeDashstyle: 'longdash'
+		    	}
+		  }
+		  //console.log(pa+"sdf");
+		 // var polyfeatrue = format.read(temp);
+		  //map.zoomToExtent(geom);
+	    	var polygan = [];
+	    	console.log(param);
 	    	
-	    	var encoded = geom;
-	    	console.log('efe');
-	    	//var encoded = s.result.geom; //쿼리결과(geom)
-	    	vector.removeFeatures();
-	    	vector.addFeatures(format.read(encoded));
+	    	vector.removeAllFeatures(); //다른 시군구를 선택했을때 전에 그려진 시군구 초기화
+	    	/* var opt = [];
+	    	for(i=0;i<param.length;i++){
+	    		 opt.push(format.read(param[i].geom).style = {
+		    		fillColor : 'red'
+		    	})
+		    	
+	    		polygan.push(format.read(param[i].geom));
+	    	
+		    	
+	    	}*/
+//	    	vector.addFeatures(polygan, {fillColor: 'red'});
+	    	/*polyfeatrue.style = {
+	    			fillColor : 'red'
+	    	}*/
+	    	vector.addFeatures(polyfeatrue);
+	    	//OpenLayers.Events.featureclick(alert('asdf'));
 	    }
 	  $scope.init();
 });

@@ -75,6 +75,7 @@ public class GisServiceImpl implements GisService{
 		return resultMap;
 	}
 
+	//선택한 구의 읍면동 경계영역 정보 가져오기
 	@Override
 	public Map<String, Object> getEmdGeom(guVO guVO) {
 		Map<String,Object> resultMap = new HashMap<String, Object>();

@@ -27,7 +27,7 @@
 			,ycrd::numeric
 		 FROM TRA_XYCRD
 		 WHERE  sido_cd = '11'
-		   AND  sgg_cd = #{sggCd} --코드 가져오는 방법 찾는중
+		   AND  sgg_cd = #{sggCd}
 		 LIMIT 20
 	]]>
 	</select>
@@ -66,9 +66,9 @@
 		SELECT   emd_cd
 				,emd_kor_nm
 				,st_astext(st_transform(geom,3857)) geom
+				,rand
 		FROM tl_scco_emd
 		WHERE emd_cd like concat(#{sigCd},'%')
-		
 	]]>
 	</select>
 </mapper>

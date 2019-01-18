@@ -48,10 +48,11 @@ angular.module('ol').service('olService', function($http, $q) {
 		
 		//선택한 구 영역정보 가져오기
 		,seoulgeom : function(param){
-			var url = '/di/getSeoulGeom.gistar';
-			return $http.post(url, param).success(
+			var url = '/di/getEmdGeom.gistar';
+			return $http.post(url, param)
+			.success(
 					function(data){
-						console.log('geom샘플서비스 까지 왓음'+data);
+						console.log('geom샘플서비스 까지 왓음'+data.result.resultlist[0]);
 						if(data.result && data.result != ''){
 							//$('#lmit10').val(data.result.resultlist[0].sggNm); //초기값 설정
 							//list.selbox(data.result.resultlist, $('#selectgu')); //드롭박스 데이터 채움
