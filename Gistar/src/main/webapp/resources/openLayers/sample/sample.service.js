@@ -28,7 +28,7 @@ angular.module('ol').service('olService', function($http, $q) {
 			return $http.post(url)
 			.success(
 					function(data){
-						console.log('list샘플서비스 까지 왓음'+data);
+						//console.log('list샘플서비스 까지 왓음'+data);
 						if(data.result && data.result != ''){
 							//$('#lmit10').val(data.result.resultlist[0].sggNm); //초기값 설정
 							//list.selbox(data.result.resultlist, $('#selectgu')); //드롭박스 데이터 채움

@@ -28,12 +28,13 @@
 		<option>::서울시</option> 
     </select>
 
-    <input type="button" id="lmit10" value="{{name}}" readonly="readonly" ng-click="vm.gge()">
+    <!-- <input type="button" id="lmit10" value="{{name}}" readonly="readonly" ng-click="vm.gge()"> -->
     <!-- <input type="text" value="{{name}}" > -->
 	<!-- <div id="map" style="width:1400px; height:600px;"></div> -->
 	<div id="objec"></div>
 		
 </div>
 <div id="map" class="smallmap"></div>
+<div id='hoverinfo'>여기:</div>
 </body>
 </html>

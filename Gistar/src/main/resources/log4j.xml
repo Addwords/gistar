@@ -11,6 +11,9 @@
 	</appender>
 	
 	<!-- Application Loggers -->
+	<logger name="com.kt">
+		<level value="debug" />
+	</logger>
 	<logger name="com.kt.controller">
 		<level value="info" />
 	</logger>
