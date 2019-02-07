@@ -140,6 +140,7 @@ div.olControlMousePosition {
 .olPopupContent {
     padding:5px;
     overflow: auto;
+    background-color: balck;
 }
 
 .olControlNavigationHistory {

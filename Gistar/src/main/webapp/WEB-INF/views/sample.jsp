@@ -19,6 +19,9 @@
         	width: 1300px;
             height: 800px;
         }
+        #tooltip_contentDiv{
+        background-color: balck;
+        }
     </style>
 </head>
 <body>

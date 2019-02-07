@@ -34,16 +34,23 @@
   	  		//영역에 마우스를 올렸을때
   	  		,featureover : function(evt){
   	  		var feature = evt.feature.style;
-  	  		//console.log(evt.feature.geometry.getBounds());
-  	  		//map.zoomToExtent(evt.feature.geometry.getBounds());//구 센터값 가져올예정
+  	  		//툴팁 겹침현상 해결을위해 x,y좌표 30씩 늘려줌
+  	  		var vx = screenxy.x+30;
+  	  		var vy = screenxy.y+30;
+  	  		screenxy.x = vx;
+  	  		screenxy.y = vy;
+  	  		
+  	  		console.log(screenxy);
             var popup = new OpenLayers.Popup("tooltip",
-            	evt.feature.geometry.getBounds().getCenterLonLat(), //정보를 표시할 위치 {lon:x, lat:y}
+            	//evt.feature.geometry.getBounds().getCenterLonLat(), //정보를 표시할 위치 {lon:x, lat:y}
             	//현재 마우스포인터값 가져와야댐
+            	map.getLonLatFromPixel(screenxy),
             	null, //size
-                "<div style='font-size:.8em;'>"+feature.label+"</div>",//팝업창에 보여줄 내용(HTML)
+                "<div class='poptool' style='font-size:.8em; font:white;'>"+feature.label+"</div>",//팝업창에 보여줄 내용(HTML)
                 null,
                 true
             );
+            //popup.backgroundColor('black');
             feature.popup = popup;
             map.addPopup(popup);
   	  		}
