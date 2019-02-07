@@ -9,6 +9,9 @@
 <script type="text/javascript" src="/resources/openLayers/sample/app.js"></script>
 <script type="text/javascript" src="/resources/openLayers/sample/sample.controller.js"></script>
 <script type="text/javascript" src="/resources/openLayers/sample/sample.service.js"></script>
+<script type="text/javascript" src="/resources/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.bpopup.min.js"></script>
+<script type="text/javascript" src="/resources/js/Chart.js"></script>
 
 
 

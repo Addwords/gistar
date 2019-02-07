@@ -5,6 +5,10 @@
 	  var mapnik = new OpenLayers.Layer.OSM(); //지도관련lib? ollehmap으로 대체할것임
   	  var format = new OpenLayers.Format.WKT(); //지도관련lib? ollehmap으로 대체할것임
   	  var screenxy = { lon:0, lat:0 };
+  	  var colorSet = ["#D70000","#FF0000","#FF6600","#FFAA00","#FEE800","#C8E70E","#8ECB12","#5BCC09","#0CC408","#00B406","#0BC2C4","#0FA4D5","#1E85DC","#2F5AE7"];
+  	  vm.emdKorNm = [];
+  	  vm.traCnt = [];
+  	  
   	  var map = new OpenLayers.Map({ //초기 지도설정
         div: "map", //적용할 div id
         projection: "EPSG:900913",  //투영좌표계??
@@ -20,7 +24,12 @@
         	//영역을 클릭했을때
         	,featureclick : function(e){
         		//console.log(e.feature.style.label);
-        		alert("click"+e.feature.style.label);
+//        		alert("click"+e.feature.style.label);
+        		$("#popup").bPopup({
+    				follow: [true, true],
+    				position: ['auto', 30],
+    				modalClose: true
+        		});  
         	}
   	  		//영역에 마우스를 올렸을때
   	  		,featureover : function(evt){
@@ -77,8 +86,27 @@
 		  olService.seoulgeom(param).success(function(data) {
 			  //console.log('geom컨트롤러까지 왔음'+data.result.resultlist);
 				  var d = data.result.resultlist;
+				  vm.dongData = d[0].traCnt;
 				  //console.log(d.geom);
 				  $scope.createPolygon(d);
+				  
+				  for(var i = 0; i < d.length; i++){
+					  vm.emdKorNm.push(d[i].emdKorNm);
+					  vm.traCnt.push(d[i].traCnt);
+				  }
+		  });
+		  
+		  var ctx = document.getElementById("myChart").getContext('2d');
+		  var myChart = new Chart(ctx, {
+			  type: 'bar',
+			  data: {
+				  labels: vm.emdKorNm,
+				  datasets: [{
+					  label: 'Series',
+					  data: vm.traCnt,
+					  backgroundColor: colorSet
+				  }]
+			  }
 		  });
 	  }
 	  
