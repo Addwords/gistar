@@ -29,7 +29,7 @@
   <body>
     <h1 id="title">OpenLayers 2 Spherical Mercator <a href="/WEB-INF/openLayers/sample/sample.html">Example</a></h1>
     <div id="map" class="smallmap"></div>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
 	
     // map ì¤ì > ê·¸ ë¤ì addLayer 
     var map = new OpenLayers.Map({
@@ -68,7 +68,7 @@
         );
     var encoded = 'MULTIPOLYGON((13696686.97097 4637161.50812, 14509976.95181 4765575.71562, 14273939.40850 3988975.50835))';
     vector.addFeatures(format.read(encoded));
-    </script>
+    </script> -->
   </body>
 </html>
 

@@ -35,6 +35,5 @@
 		
 </div>
 <div id="map" class="smallmap"></div>
-<div id='hoverinfo'>여기:</div>
 </body>
 </html>

@@ -5,9 +5,10 @@ public class EmdVO {
 
 	private String emdCd;          	  //읍면동코드 
 	private String emdKorNm;          //읍면동명 
-	private String geom; 			  //geometry
+	private String emdGeom; 		  //읍면동geometry
+	private String guGeom; 			  //시군구geometry
 	private int rank;			      //분위
-	private double traCnt;
+	private double traCnt;			  //상권수
 	private double xCrd;              //위도
 	private double yCrd;              //경도
 	
@@ -23,11 +24,18 @@ public class EmdVO {
 	public void setEmdKorNm(String emdKorNm) {
 		this.emdKorNm = emdKorNm;
 	}
-	public String getGeom() {
-		return geom;
+	
+	public String getEmdGeom() {
+		return emdGeom;
 	}
-	public void setGeom(String geom) {
-		this.geom = geom;
+	public void setEmdGeom(String emdGeom) {
+		this.emdGeom = emdGeom;
+	}
+	public String getGuGeom() {
+		return guGeom;
+	}
+	public void setGuGeom(String guGeom) {
+		this.guGeom = guGeom;
 	}
 	public int getRank() {
 		return rank;

@@ -39,7 +39,7 @@
 		<!-- VO는 언더바 빼야함 -->
 	<![CDATA[
 		SELECT
-			  SGG_CD
+			   SGG_CD
 			  ,SGG_NM
 		  FROM COMCD
 	]]>
@@ -51,37 +51,66 @@
 		<!-- VO랑 변수명 맞춰야함 -->
 		<!-- VO는 언더바 빼야함 -->
 	<![CDATA[
-		SELECT   sig_cd
-				,st_astext(st_transform(geom,3857)) geom
-		FROM tl_scco_sig
-		WHERE sig_cd = #{sigCd}
-		
+		select 
+			 substr(admdong_cd,1,5) as sigCd
+			,st_astext(st_multi(st_union(st_transform(st_setsrid(geom,5179),3857)))) as geom
+		  from alp_admdong_alp_m_sum
+		WHERE substr(admdong_cd,1,5) = #{sigCd}
+		group by 1
 	]]>
 	</select>
 	
 	<!-- SELECT emd_cd ,emd_kor_nm ,st_astext(st_transform(geom,3857)) geom 
 		,rank FROM tl_scco_emd WHERE emd_cd like concat(#{sigCd},'%') -->
-
+		
+<!-- SELECT 	
+		T101.admdong_cd AS emdCd
+		,substr(T101.admdong_nm, 11) AS emdKorNm
+		,st_astext(st_transform(st_setsrid(T101.geom,5179),3857)) AS geom
+		,ntile(5) over(ORDER BY T102.cnt desc) AS rank
+		,cnt AS traCnt
+		FROM alp_admdong_alp_m_sum T101
+		LEFT JOIN (SELECT admdong_cd, count(tra_num) cnt
+		             FROM tra_xycrd_3
+		            WHERE admdong_cd like concat(#{sigCd},'%')
+		            GROUP BY 1
+		           ) T102
+		  ON T101.admdong_cd = substr(T102.admdong_cd,1,8)
+	   WHERE T101.admdong_cd like concat(#{sigCd},'%') -->
 	<!-- 선택된 구의 동정보 경계영역 가져오기 -->
 	<select id="getEmdGeom" parameterType="com.kt.vo.guVO"
 		resultType="com.kt.vo.EmdVO">
 		<!-- VO랑 변수명 맞춰야함 -->
 		<!-- VO는 언더바 빼야함 -->
 	<![CDATA[
-		select 	
-		T1.admdong_cd emdCd
-		,substr(T1.admdong_nm,11) emdKorNm
-		,st_astext(st_transform(st_setsrid(T1.geom,5179),3857)) geom
-		,ntile(5) over(ORDER BY T2.cnt desc) rank
-		,cnt traCnt
-		from alp_admdong_alp_m_sum T1
-		left join (select admdong_cd, count(tra_num) cnt
-		             from tra_xycrd
-		             where admdong_cd like concat(#{sigCd},'%')
-		            group by 1
-		            ) T2
-		on T1.admdong_cd = substr(T2.admdong_cd,1,8)
-		where T1.admdong_cd like concat(#{sigCd},'%')
+		select T21.emdCd
+      ,T21.emdKorNm
+      ,T21.emdGeom as emdGeom
+      ,T22.guGeom as guGeom
+      ,T21.rank
+      ,T21.traCnt
+  from (
+        SELECT 	
+		T101.admdong_cd AS emdCd
+		,substr(T101.admdong_nm, 11) AS emdKorNm
+		,st_astext(st_transform(st_setsrid(T101.geom,5179),3857)) AS emdGeom
+		,ntile(5) over(ORDER BY T102.cnt desc) AS rank
+		,cnt AS traCnt
+		FROM alp_admdong_alp_m_sum T101
+		LEFT JOIN (SELECT admdong_cd, count(tra_num) cnt
+		             FROM tra_xycrd_3
+		            WHERE admdong_cd like concat(#{sigCd},'%')
+		            GROUP BY 1
+		           ) T102
+		  ON T101.admdong_cd = substr(T102.admdong_cd,1,8)
+	   WHERE T101.admdong_cd like concat(#{sigCd},'%')) T21
+        ,(
+         select substr(admdong_cd,1,5)as sgg_cd
+               ,st_astext(st_multi(st_union(st_transform(st_setsrid(geom,5179),3857)))) as guGeom
+           from alp_admdong_alp_m_sum
+          where substr(admdong_cd,1,5) like #{sigCd}
+          group by 1 ) T22
+ where substr(T21.emdCd,1,5) = T22.sgg_cd
 	]]>
 	</select>
 </mapper>

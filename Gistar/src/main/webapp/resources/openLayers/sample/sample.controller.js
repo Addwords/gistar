@@ -23,9 +23,10 @@
         		alert("click"+e.feature.style.label);
         	}
   	  		//영역에 마우스를 올렸을때
-  	  		,featureover :function(evt){
+  	  		,featureover : function(evt){
   	  		var feature = evt.feature.style;
-  	  		//console.log(evt.feature);
+  	  		//console.log(evt.feature.geometry.getBounds());
+  	  		//map.zoomToExtent(evt.feature.geometry.getBounds());//구 센터값 가져올예정
             var popup = new OpenLayers.Popup("popup",
             	evt.feature.geometry.getBounds().getCenterLonLat(), //정보를 표시할 위치 {lon:x, lat:y}
             	null, //size
@@ -72,8 +73,9 @@
 	  vm.gcon = function(data){ //시군구코드 보내기용(value값은 name)
 		  var param = JSON.stringify({sigCd:data.name}); //ajax통신시 json형식을 String으로 cast해서 보내야함
 		  console.log(param);
+		  
 		  olService.seoulgeom(param).success(function(data) {
-			  console.log('geom컨트롤러까지 왔음'+data.result.resultlist);
+			  //console.log('geom컨트롤러까지 왔음'+data.result.resultlist);
 				  var d = data.result.resultlist;
 				  //console.log(d.geom);
 				  $scope.createPolygon(d);
@@ -94,17 +96,14 @@
 		    map.addControl(new OpenLayers.Control.EditingToolbar(vector));  // ì°ì¸¡ ìë¨ 4ê° ì»¨í¸ë¡¤ toolbar
 		    //map.addControl(new OpenLayers.Control.Permalink());        // ë§µ ë¤ì ìì±   ì£¼ìì²ë¦¬ 
 		    map.addControl(new OpenLayers.Control.MousePosition());       
-		    //map.zoomToMaxExtent();
+		    //map.zoomToMaxExtent();맵 이동
+		    //초기에 서울시로 범위셋팅
 		    map.zoomToExtent(
 		            new OpenLayers.Bounds(
 		                126.67168, 37.35204, 127.35146, 37.71306       // ëíë¯¼êµ­ ë²ì ì¤ì 
 		            ).transform(map.displayProjection, map.projection)
 		        );
-		    
-/*		    	var encoded = 'MULTIPOLYGON((13696686.97097 4637161.50812, 14509976.95181 4765575.71562, 14273939.40850 3988975.50835))';
-		    	//var encoded = s.result.geom; //쿼리결과(geom)
-		    	vector.addFeatures(format.read(encoded));*/
-		 // create the select feature control
+		      //hover 컨트롤러 추가
 		      var selector = new OpenLayers.Control.SelectFeature(vector,{
 		          hover:true,
 		          autoActivate:true
@@ -112,45 +111,27 @@
 		      map.addControl(selector);
 	 }
 	  
-	  //동별 색칠하기 --5분위로 나누는 중(법정동 과 행정동 둘중하나로 통일해야됨)
+	  //동별 색칠하기 --5분위로 나눔(법정동 과 행정동 둘중하나로 통일해야됨)
 	  $scope.createPolygon = function(param){
 		  var polyfeatrue = [];
-		  var color = ['red','orange','yellow','lightgreen','green'];
-		   for(i in param){
+		  var color = ['red','orange','yellow','lightgreen','green']; //5분위에 해당하는 색정보(order by 상권수 desc)
+		  var gugeo = format.read(param[0].guGeom);//선택한 시군구의 geometry값 셋팅
+		  vector.addFeatures(gugeo); //선택한 시군구의 bounds값을 가져오기 위해 feature생성, 동정보와 겹치기 때문에 remove전에 선언
+		  map.zoomToExtent(gugeo.geometry.getBounds()); //선택한 시군구의 bounds값으로 화면이동
+		  
+		  for(i in param){
 			   var d = param[i];
-			   polyfeatrue.push(format.read(d.geom));
-			   console.log(d.rank)
+			   polyfeatrue.push(format.read(d.emdGeom));
 			   polyfeatrue[i].style = {
-		    			 fillColor : color[d.rank-1] //color[d.rank]
+		    			 fillColor : color[d.rank-1] //color[d.rank] --분위는 1부터 시작이므로 -1 해주어야 함
 			   			,fillOpacity : 0.7
 			   			,Title : d.emdKorNm
 			   			,label : d.emdKorNm+'('+d.traCnt+')'
-			   			,strokeDashstyle: 'longdash'
+			   			,strokeDashstyle: 'none'
 		    	}
 		  }
-		  //console.log(pa+"sdf");
-		 // var polyfeatrue = format.read(temp);
-		  //map.zoomToExtent(geom);
-	    	var polygan = [];
-	    	//console.log(param);
-	    	
 	    	vector.removeAllFeatures(); //다른 시군구를 선택했을때 전에 그려진 시군구 초기화
-	    	/* var opt = [];
-	    	for(i=0;i<param.length;i++){
-	    		 opt.push(format.read(param[i].geom).style = {
-		    		fillColor : 'red'
-		    	})
-		    	
-	    		polygan.push(format.read(param[i].geom));
-	    	
-		    	
-	    	}*/
-//	    	vector.addFeatures(polygan, {fillColor: 'red'});
-	    	/*polyfeatrue.style = {
-	    			fillColor : 'red'
-	    	}*/
-	    	vector.addFeatures(polyfeatrue);
-	    	//OpenLayers.Events.featureclick(alert('asdf'));
+	    	vector.addFeatures(polyfeatrue); //동정보 그리기
 	    }
 	  $scope.init();
 });
