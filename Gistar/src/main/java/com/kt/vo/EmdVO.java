@@ -6,7 +6,8 @@ public class EmdVO {
 	private String emdCd;          	  //읍면동코드 
 	private String emdKorNm;          //읍면동명 
 	private String geom; 			  //geometry
-	private double rand;			  //테스트용 
+	private int rank;			      //분위
+	private double traCnt;
 	private double xCrd;              //위도
 	private double yCrd;              //경도
 	
@@ -28,6 +29,12 @@ public class EmdVO {
 	public void setGeom(String geom) {
 		this.geom = geom;
 	}
+	public int getRank() {
+		return rank;
+	}
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
 	public double getxCrd() {
 		return xCrd;
 	}
@@ -40,11 +47,11 @@ public class EmdVO {
 	public void setyCrd(double yCrd) {
 		this.yCrd = yCrd;
 	}
-	public double getRand() {
-		return rand;
+	public double getTraCnt() {
+		return traCnt;
 	}
-	public void setRand(double rand) {
-		this.rand = rand;
+	public void setTraCnt(double traCnt) {
+		this.traCnt = traCnt;
 	}
 	
 	

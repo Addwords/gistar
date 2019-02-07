@@ -28,8 +28,8 @@
   	  		//console.log(evt.feature);
             var popup = new OpenLayers.Popup("popup",
             	evt.feature.geometry.getBounds().getCenterLonLat(), //정보를 표시할 위치 {lon:x, lat:y}
-                null,
-                "<div style='font-size:.8em'>Feature: "+feature.label+"</div>",
+            	null, //size
+                "<div style='font-size:.8em;'>"+feature.label+"</div>",//팝업창에 보여줄 내용(HTML)
                 null,
                 true
             );
@@ -112,19 +112,19 @@
 		      map.addControl(selector);
 	 }
 	  
+	  //동별 색칠하기 --5분위로 나누는 중(법정동 과 행정동 둘중하나로 통일해야됨)
 	  $scope.createPolygon = function(param){
-		  var temp = [];
 		  var polyfeatrue = [];
 		  var color = ['red','orange','yellow','lightgreen','green'];
 		   for(i in param){
 			   var d = param[i];
 			   polyfeatrue.push(format.read(d.geom));
-			   //console.log(d.rand);
+			   console.log(d.rank)
 			   polyfeatrue[i].style = {
-		    			 fillColor : color[i]
-			   			,fillOpacity : 0.9
+		    			 fillColor : color[d.rank-1] //color[d.rank]
+			   			,fillOpacity : 0.7
 			   			,Title : d.emdKorNm
-			   			,label : d.emdKorNm
+			   			,label : d.emdKorNm+'('+d.traCnt+')'
 			   			,strokeDashstyle: 'longdash'
 		    	}
 		  }
