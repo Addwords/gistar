@@ -20,10 +20,6 @@
             height: 800px;
         }
     </style>
-<script type="text/javascript" src="../jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="../jquery-ui.min.js"></script>
-<script type="text/javascript" src="../jquery.bpopup.min.js"></script>
-<script type="text/javascript" src="../chart/Chart.js"></script>   
 </head>
 <body>
 <div ng-app="ol" ng-controller="olController as vm">

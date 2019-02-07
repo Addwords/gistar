@@ -36,8 +36,9 @@
   	  		var feature = evt.feature.style;
   	  		//console.log(evt.feature.geometry.getBounds());
   	  		//map.zoomToExtent(evt.feature.geometry.getBounds());//구 센터값 가져올예정
-            var popup = new OpenLayers.Popup("popup",
+            var popup = new OpenLayers.Popup("tooltip",
             	evt.feature.geometry.getBounds().getCenterLonLat(), //정보를 표시할 위치 {lon:x, lat:y}
+            	//현재 마우스포인터값 가져와야댐
             	null, //size
                 "<div style='font-size:.8em;'>"+feature.label+"</div>",//팝업창에 보여줄 내용(HTML)
                 null,
@@ -68,7 +69,7 @@
 	  vm.gge = function(){ //드롭박스에 구정보 불러옴
 		  olService.seoulist().success(function(data) {
 			  //console.log('list컨트롤러까지 왔음'+data.result.resultlist[0]);
-			  var sstr = '<option>::서울시</option>';
+			  var sstr = '<option>::서울특별시::</option>';
 			  for(i in data.result.resultlist){
 				  var d = data.result.resultlist[i];
 					sstr += '<option value="'+d.sggCd+'">'+d.sggNm+'</option>';
@@ -152,10 +153,12 @@
 			   polyfeatrue.push(format.read(d.emdGeom));
 			   polyfeatrue[i].style = {
 		    			 fillColor : color[d.rank-1] //color[d.rank] --분위는 1부터 시작이므로 -1 해주어야 함
-			   			,fillOpacity : 0.7
-			   			,Title : d.emdKorNm
-			   			,label : d.emdKorNm+'('+d.traCnt+')'
-			   			,strokeDashstyle: 'none'
+			   			,fillOpacity : 0.7 //투명도
+			   			,fontSize: 12 //글자크기
+			   			,Title : d.emdKorNm //제목
+			   			,label : d.emdKorNm+'('+d.traCnt+')' //지도에표시할정보
+			   			,strokeColor: 'white' //선색
+			   			,strokeDashstyle: 'longdash' //선모양
 		    	}
 		  }
 	    	vector.removeAllFeatures(); //다른 시군구를 선택했을때 전에 그려진 시군구 초기화
