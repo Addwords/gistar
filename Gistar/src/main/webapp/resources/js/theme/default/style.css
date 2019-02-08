@@ -141,7 +141,7 @@ div.olControlMousePosition {
     padding:5px;
     overflow: auto;
     background-color: black;
-    font: white;
+    color: white;
 }
 
 .olControlNavigationHistory {
@@ -441,7 +441,7 @@ span.olGoogleAttribution.hybrid a, span.olGoogleAttribution.satellite a {
 }
 
 div.olControlZoom, div.olControlTextButtonPanel {
-    position: absolute;
+    position: none;
     top: 8px;
     left: 8px;
     background: rgba(255,255,255,0.4);
@@ -449,6 +449,7 @@ div.olControlZoom, div.olControlTextButtonPanel {
     padding: 2px;
 }
 div.olControlZoom a {
+	display: none;
     font-size: 18px;
     line-height: 19px;
     height: 22px;
@@ -456,7 +457,7 @@ div.olControlZoom a {
     padding: 0;
 }
 div.olControlZoom a, div.olControlTextButtonPanel .olButton {
-    display: block;
+    display: none;
     margin: 1px;
     color: white;
     font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
@@ -478,9 +479,11 @@ div.olControlZoom a:hover, div.olControlTextButtonPanel .olButton:hover {
     }
 }
 a.olControlZoomIn {
+	display: none;
     border-radius: 4px 4px 0 0;
 }
 a.olControlZoomOut {
+	display: none;
     border-radius: 0 0 4px 4px;
 }
 

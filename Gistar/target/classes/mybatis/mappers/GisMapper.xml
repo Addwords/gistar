@@ -98,7 +98,7 @@
 		,cnt AS traCnt
 		FROM alp_admdong_alp_m_sum T101
 		LEFT JOIN (SELECT admdong_cd, count(tra_num) cnt
-		             FROM tra_xycrd_3
+		             FROM tra_xycrd_seoul
 		            WHERE admdong_cd like concat(#{sigCd},'%')
 		            GROUP BY 1
 		           ) T102

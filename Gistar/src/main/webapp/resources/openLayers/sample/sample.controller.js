@@ -34,19 +34,22 @@
   	  		//영역에 마우스를 올렸을때
   	  		,featureover : function(evt){
   	  		var feature = evt.feature.style;
+  	  		//console.log(feature);
+  	  		
+  	  	    feature.fillOpacity = 0.9;//마우스를 올렸을때 색 진하게 하기
   	  		//툴팁 겹침현상 해결을위해 x,y좌표 30씩 늘려줌
   	  		var vx = screenxy.x+30;
   	  		var vy = screenxy.y+30;
   	  		screenxy.x = vx;
   	  		screenxy.y = vy;
   	  		
-  	  		console.log(screenxy);
+  	  		//console.log(screenxy);
             var popup = new OpenLayers.Popup("tooltip",
             	//evt.feature.geometry.getBounds().getCenterLonLat(), //정보를 표시할 위치 {lon:x, lat:y}
             	//현재 마우스포인터값 가져와야댐
             	map.getLonLatFromPixel(screenxy),
             	null, //size
-                "<div class='poptool' style='font-size:.8em; font:white;'>"+feature.label+"</div>",//팝업창에 보여줄 내용(HTML)
+                "<div class='poptool' style='font-size:.8em;'>"+feature.label+"</div>",//팝업창에 보여줄 내용(HTML)
                 null,
                 true
             );
@@ -57,6 +60,7 @@
   	  		//영역에서 마우스가 벗어낫을때 초기화
             ,featureout : function(evt){
                 var feature = evt.feature.style;
+                feature.fillOpacity = 0.6;//커서가 빠지면 색 원복
                 map.removePopup(feature.popup);
                 feature.popup.destroy();
                 feature.popup = null;
@@ -70,6 +74,29 @@
 		  
 		  $scope.createMap();
 		  vm.gge();
+		  
+		    var overlay = new OpenLayers.Layer.Vector('Overlay', {
+		        styleMap: new OpenLayers.StyleMap({
+		            externalGraphic: '/resources/js/img/marker.png',
+		            graphicWidth: 40, graphicHeight: 44,
+		            title: '${tooltip}'
+		        })
+		    });
+
+		   
+		    var myLocation = [
+		    	 new OpenLayers.Geometry.Point(126.97889,37.56433).transform(map.displayProjection, map.projection)
+		    	,new OpenLayers.Geometry.Point(126.98019,37.56435).transform(map.displayProjection, map.projection)
+		    	]
+		    
+		    // We add the marker with a tooltip text to the overlay
+		    overlay.addFeatures([
+		         new OpenLayers.Feature.Vector(myLocation[0], {tooltip: 'OpenLayers'})
+		        ,new OpenLayers.Feature.Vector(myLocation[1], {tooltip: 'OpenLayers'})
+		    ]);
+		    map.addLayers([mapnik, overlay]);
+		    //overlay.removeAllFeatures();//마커들 지우기
+		    
 	  }
 	 
 	  
@@ -88,8 +115,11 @@
 	  
 	  
 	  vm.gcon = function(data){ //시군구코드 보내기용(value값은 name)
+		  if(data.name =='::서울특별시::'){
+			  return null;
+		  }
 		  var param = JSON.stringify({sigCd:data.name}); //ajax통신시 json형식을 String으로 cast해서 보내야함
-		  console.log(param);
+		  
 		  
 		  olService.seoulgeom(param).success(function(data) {
 			  //console.log('geom컨트롤러까지 왔음'+data.result.resultlist);
@@ -104,6 +134,7 @@
 				  }
 		  });
 		  
+		  //ChartJS
 		  var ctx = document.getElementById("myChart").getContext('2d');
 		  var myChart = new Chart(ctx, {
 			  type: 'bar',
@@ -118,7 +149,22 @@
 		  });
 	  }
 	  
-	  $scope.event = function(){ //테스트 중
+	  vm.sang = function(data){ //상권정보 가져와서 마커찍기 중
+		  var param = JSON.stringify({sigCd:data.name}); //ajax통신시 json형식을 String으로 cast해서 보내야함
+		  var sd = document.getElementById("selectgu").value;
+		  console.log(sd);
+		  olService.seoulgeom(param).success(function(data) {
+			  //console.log('geom컨트롤러까지 왔음'+data.result.resultlist);
+				  var d = data.result.resultlist;
+				  vm.dongData = d[0].traCnt;
+				  //console.log(d.geom);
+				  $scope.createPolygon(d);
+				  
+				  for(var i = 0; i < d.length; i++){
+					  vm.emdKorNm.push(d[i].emdKorNm);
+					  vm.traCnt.push(d[i].traCnt);
+				  }
+		  });
 		  
 	  }
 	  
@@ -129,9 +175,9 @@
 		    
 		    // map ì»¨í¸ë¡¤ ì¶ê° 
 		    //map.addControl(new OpenLayers.Control.LayerSwitcher());     // ì°ì¸¡ ì§ëë³ê²½    ì£¼ìì²ë¦¬
-		    map.addControl(new OpenLayers.Control.EditingToolbar(vector));  // ì°ì¸¡ ìë¨ 4ê° ì»¨í¸ë¡¤ toolbar
+		    //map.addControl(new OpenLayers.Control.EditingToolbar(vector));  // ì°ì¸¡ ìë¨ 4ê° ì»¨í¸ë¡¤ toolbar
 		    //map.addControl(new OpenLayers.Control.Permalink());        // ë§µ ë¤ì ìì±   ì£¼ìì²ë¦¬ 
-		    map.addControl(new OpenLayers.Control.MousePosition());       
+		    //map.addControl(new OpenLayers.Control.MousePosition());       
 		    //map.zoomToMaxExtent();맵 이동
 		    //초기에 서울시로 범위셋팅
 		    map.zoomToExtent(
@@ -160,7 +206,7 @@
 			   polyfeatrue.push(format.read(d.emdGeom));
 			   polyfeatrue[i].style = {
 		    			 fillColor : color[d.rank-1] //color[d.rank] --분위는 1부터 시작이므로 -1 해주어야 함
-			   			,fillOpacity : 0.7 //투명도
+			   			,fillOpacity : 0.6 //투명도 = 1에 가까울수록 진한색
 			   			,fontSize: 12 //글자크기
 			   			,Title : d.emdKorNm //제목
 			   			,label : d.emdKorNm+'('+d.traCnt+')' //지도에표시할정보

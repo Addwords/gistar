@@ -448,6 +448,7 @@ div.olControlZoom, div.olControlTextButtonPanel {
     padding: 2px;
 }
 div.olControlZoom a {
+	display: none;
     font-size: 18px;
     line-height: 19px;
     height: 22px;
@@ -455,7 +456,7 @@ div.olControlZoom a {
     padding: 0;
 }
 div.olControlZoom a, div.olControlTextButtonPanel .olButton {
-    display: block;
+    display: none;
     margin: 1px;
     color: white;
     font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;

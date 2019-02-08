@@ -22,20 +22,18 @@ angular.module('ol').service('olService', function($http, $q) {
 			
 			return storage.sample;
 		}
-		//서울시 전체구 가져오기
+		//서울시 전체구 가져와서 드롭박스 채움
 		,seoulist : function() {
 			var url = '/di/getSeoulList.gistar';
 			return $http.post(url)
 			.success(
-					function(data){
+					function(data){ //
 						//console.log('list샘플서비스 까지 왓음'+data);
-						if(data.result && data.result != ''){
-							//$('#lmit10').val(data.result.resultlist[0].sggNm); //초기값 설정
-							//list.selbox(data.result.resultlist, $('#selectgu')); //드롭박스 데이터 채움
+						/*if(data.result && data.result != ''){
 							return '';
 						}else{
 							console.log('error');
-						}
+						}*/
 						
 					}
 			)
@@ -54,8 +52,6 @@ angular.module('ol').service('olService', function($http, $q) {
 					function(data){
 						//console.log('geom샘플서비스 까지 왓음'+data.result.resultlist[0]);
 						if(data.result && data.result != ''){
-							//$('#lmit10').val(data.result.resultlist[0].sggNm); //초기값 설정
-							//list.selbox(data.result.resultlist, $('#selectgu')); //드롭박스 데이터 채움
 							return '';
 						}else{
 							console.log('error');
@@ -69,7 +65,7 @@ angular.module('ol').service('olService', function($http, $q) {
 					}
 			);
 		}
-	}
+	}//storage
 
 	return storage;
 	
