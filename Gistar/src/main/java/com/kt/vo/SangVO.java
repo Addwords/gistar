@@ -23,8 +23,15 @@ public class SangVO {
     private double xCrd;           //위도
     private double yCrd;           //경도
     private String geom; 		   //Geometry
+    private int zlevel;            //ZoomLevel
     
     
+	public int getZlevel() {
+		return zlevel;
+	}
+	public void setZlevel(int zlevel) {
+		this.zlevel = zlevel;
+	}
 	public int getTraNum() {
 		return traNum;
 	}

@@ -10,9 +10,10 @@
   	  vm.traCnt = [];
   	  var overlay = new OpenLayers.Layer.Vector('Overlay', {
   		  					styleMap : new OpenLayers.StyleMap({
-							            externalGraphic: '/resources/js/img/marker.png',
-							            graphicWidth: 30, graphicHeight: 34,
-							            title: '테스트'
+							             externalGraphic: '/resources/js/img/marker.png'
+							            ,graphicWidth: 30
+							            ,graphicHeight: 34
+							            //,title: '테스트'
   		  								})
      						});
   	  var map = new OpenLayers.Map({ //초기 지도설정
@@ -23,15 +24,18 @@
         // approximately match Google's zoom animation
         zoomDuration: 10,
         eventListeners : {
-        	//마우스의 현재위치값 반환
-        	mousemove : function(e){
-        		screenxy = this.events.getMousePosition(e);
-        		//console.log(map.getExtent());//현재 
+        	move : function(e){
+        		//console.log(map.getExtent().getCenterLonLat().clone());	
         	}
+        	//마우스의 현재위치값 반환
+        	,mousemove : function(e){
+        		screenxy = this.events.getMousePosition(e);
+        	}
+  	  		//휠 변환 후 지도레벨 반환
 		  	,zoomend: function(e){
 		  	console.log(map.getZoom());//현재 지도레벨
-		  	console.log(map.getExtent());//현재 
-		  	
+		  	//console.log(map.getExtent());//현재 지도 bounds값
+		  	//vm.sang();
 		  	}
         	//영역을 클릭했을때
         	,featureclick : function(e){
@@ -45,25 +49,25 @@
         	}
   	  		//영역에 마우스를 올렸을때
   	  		,featureover : function(evt){
-  	  		var feature = evt.feature.style;
-  	  		//console.log(feature);
-  	  		
-  	  	    feature.fillOpacity = 0.9;//마우스를 올렸을때 색 진하게 하기
-  	  		//툴팁 겹침현상 해결을위해 x,y좌표 30씩 늘려줌
-  	  		var vx = screenxy.x+30;
-  	  		var vy = screenxy.y+30;
-  	  		screenxy.x = vx;
-  	  		screenxy.y = vy;
-  	  		
-  	  		//console.log(screenxy);
-            var popup = new OpenLayers.Popup("tooltip",
-            	//evt.feature.geometry.getBounds().getCenterLonLat(), //정보를 표시할 위치 {lon:x, lat:y}
-            	//현재 마우스포인터값 가져와야댐
-            	map.getLonLatFromPixel(screenxy),
-            	new OpenLayers.Size(200,150), //size
-                "<div class='poptool' style='font-size:.8em;'>"+feature.label+"</div>",//팝업창에 보여줄 내용(HTML)
-                null,
-                true
+		  	  		var feature = evt.feature.style;
+		  	  		//console.log(feature);
+		  	  		
+		  	  	    feature.fillOpacity = 0.9;//마우스를 올렸을때 색 진하게 하기
+		  	  		//툴팁 겹침현상 해결을위해 x,y좌표 30씩 늘려줌
+		  	  		var vx = screenxy.x+30;
+		  	  		var vy = screenxy.y+30;
+		  	  		screenxy.x = vx;
+		  	  		screenxy.y = vy;
+		  	  		
+		  	  		//console.log(screenxy);
+		            var popup = new OpenLayers.Popup("tooltip",
+		            	//evt.feature.geometry.getBounds().getCenterLonLat(), //정보를 표시할 위치 {lon:x, lat:y}
+		            	//현재 마우스포인터값 가져와야댐
+		            	map.getLonLatFromPixel(screenxy),
+		            	new OpenLayers.Size(200,150), //size
+		                "<div class='poptool' style='font-size:.8em;'>"+feature.label+"</div>",//팝업창에 보여줄 내용(HTML)
+		                null,
+		                true
             );
             //popup.backgroundColor('black');
             feature.popup = popup;
@@ -141,8 +145,9 @@
 	  vm.sang = function(data){ //상권정보 가져와서 마커찍기 중
 		  
 		  var sd = document.getElementById("selectgu").value;
-		  //console.log(sd);
+		  var zl = (map.getZoom())*(map.getZoom());
 		  var param = JSON.stringify({upjongMidCd:data, sggCd:sd}); //ajax통신시 json형식을 String으로 cast해서 보내야함
+		  //var param = JSON.stringify({upjongMidCd:'Q12',zlevel:zl}); //ajax통신시 json형식을 String으로 cast해서 보내야함
 		  console.log(param);
 		  if(sd == '::서울특별시::'){
 			  alert('구를 선택해 주세요.')
@@ -154,9 +159,9 @@
 				      for(i in data.result.resultlist){
 						  var d = data.result.resultlist[i];
 						  myLocation.push(new OpenLayers.Geometry.Point(d.yCrd,d.xCrd).transform(map.displayProjection, map.projection));
-						  markerble.push(new OpenLayers.Feature.Vector(myLocation[i], {tooltip: 'OpenLayers'}));
+						  markerble.push(new OpenLayers.Feature.Vector(myLocation[i], {title:d.traNm}));
 				      }
-				      vector.removeAllFeatures();//그려진 동들 지우기
+				      vector.removeAllFeatures();  //그려진 동들 지우기
 				      overlay.removeAllFeatures(); //마커들 지우기
 				      overlay.addFeatures(markerble); //생성된 마커정보들 지도에 표시
 			  });
@@ -164,10 +169,8 @@
 	  }
 	  
 	  $scope.createMap = function(){ //맵 최초생성
-		    map.addLayers([
-		    	mapnik, vector
-		    ]);
-		    map.addLayers([mapnik, overlay]);
+		    map.addLayers([mapnik, vector]); //경계영역 레이어
+		    map.addLayers([mapnik, overlay]); //마커 레이어
 		    // map ì»¨í¸ë¡¤ ì¶ê° 
 		    //map.addControl(new OpenLayers.Control.LayerSwitcher());     // ì°ì¸¡ ì§ëë³ê²½    ì£¼ìì²ë¦¬
 		    //map.addControl(new OpenLayers.Control.EditingToolbar(vector));  // ì°ì¸¡ ìë¨ 4ê° ì»¨í¸ë¡¤ toolbar
@@ -181,12 +184,17 @@
 		            ).transform(map.displayProjection, map.projection)
 		        );
 		      //hover 컨트롤러 추가
-		      var selector = new OpenLayers.Control.SelectFeature(vector,{
+		      var vselector = new OpenLayers.Control.SelectFeature(vector,{
 		          hover:true,
 		          autoActivate:true
 		      }); 
-		      map.addControl(selector);
-	 }
+		      var oselector = new OpenLayers.Control.SelectFeature(overlay,{
+		    	  hover:true,
+		    	  autoActivate:true
+		      }); 
+		      map.addControl(vselector);
+		      //map.addControl(oselector);
+	 } //맵그리기 끝
 	  
 	  //동별 색칠하기 --5분위로 나눔(법정동 과 행정동 둘중하나로 통일해야됨)
 	  $scope.createPolygon = function(param){
@@ -210,6 +218,7 @@
 			   			,cursor : 'pointer' //hover시 마우스포인터 모양
 		    	}
 		  }
+		  	overlay.removeAllFeatures(); //마커들 지우기
 	    	vector.removeAllFeatures(); //다른 시군구를 선택했을때 전에 그려진 시군구 초기화
 	    	vector.addFeatures(polyfeatrue); //동정보 그리기
 	    }

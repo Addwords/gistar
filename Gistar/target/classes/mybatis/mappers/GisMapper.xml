@@ -13,7 +13,7 @@
 		 FROM GISTAR.TEST
 	]]>
 	</select>
-
+<!-- AND  sgg_cd = #{sggCd} -->
 	<!-- 선택된 구에 해당하는 상권 정보 가져오기 -->
 	<select id="getSangList" parameterType="com.kt.vo.SangVO" resultType="com.kt.vo.SangVO">
 		<!-- VO랑 변수명 맞춰야함 -->
@@ -27,7 +27,7 @@
 		WHERE tra_upjong_mid_cd = #{upjongMidCd} --'Q12(커피점/카페)' 'D03(종합소매점(편의점))'
 		  AND  sgg_cd = #{sggCd}
 		ORDER BY tra_num desc		  
-	    LIMIT 30
+	    LIMIT 100
 	]]>
 	</select>
 
