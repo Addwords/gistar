@@ -15,21 +15,19 @@
 	</select>
 
 	<!-- 선택된 구에 해당하는 상권 정보 가져오기 -->
-	<select id="getSangList" parameterType="com.kt.vo.SangVO"
-		resultType="com.kt.vo.SangVO">
+	<select id="getSangList" parameterType="com.kt.vo.SangVO" resultType="com.kt.vo.SangVO">
 		<!-- VO랑 변수명 맞춰야함 -->
 	<![CDATA[
 		 SELECT
-			 tra_nm
-			,sgg_cd
-			,sgg_nm
-			,admdong_nm
+			 tra_nm --상호명
+			,admdong_nm --읍면동명
 			,xcrd::numeric --map함수에 적용될때는 숫자여야하므로 numeric으로 casting
 			,ycrd::numeric
-		 FROM TRA_XYCRD
-		 WHERE  sido_cd = '11'
-		   AND  sgg_cd = #{sggCd}
-		 LIMIT 20
+		 FROM TRA_XYCRD_SEOUL
+		WHERE tra_upjong_mid_cd = #{upjongMidCd} --'Q12(커피점/카페)' 'D03(종합소매점(편의점))'
+		  AND  sgg_cd = #{sggCd}
+		ORDER BY tra_num desc		  
+	    LIMIT 30
 	]]>
 	</select>
 
@@ -82,11 +80,11 @@
 		resultType="com.kt.vo.EmdVO">
 		<!-- VO랑 변수명 맞춰야함 -->
 		<!-- VO는 언더바 빼야함 -->
-	<![CDATA[
-		select T21.emdCd
+	<![CDATA[ 
+  select T21.emdCd
       ,T21.emdKorNm
       ,T21.emdGeom as emdGeom
-      ,T22.guGeom as guGeom
+      ,T22.guGeom as guGeom --선택한 시군구의 센터값을 구하기위해 한단이 추가됨..드롭박스 채울때 들고오게 할 예정
       ,T21.rank
       ,T21.traCnt
   from (

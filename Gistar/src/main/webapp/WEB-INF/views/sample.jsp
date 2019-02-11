@@ -60,15 +60,15 @@ display: none;
     <!-- <input type="text" value="{{name}}" > -->
 	<!-- <div id="map" style="width:1400px; height:600px;"></div> -->
 	<div id="objec"></div>
-		
-</div>
-	<div class="map_wrap">
+		<div class="map_wrap">
 		<div id="map" class="smallmap"></div>
 		<div class="modes">
-		    <span onclick="selectOverlay('MARKER')" >마커</span>
-		    <span onclick="selectOverlay('POLYLINE')">선</span>
+		    <span ng-click="vm.sang('Q12')">Cafe</span>
+		    <span ng-click="vm.sang('D03')">편의점</span>
 		</div>
 	</div>
+</div>
+	
 	<!-- 	팝업		 -->
 	<div  id="popup" style="display:none;width: 1070px; left: 424px; position: absolute; top: 100px; z-index: 10002; opacity: 1; border: 1px solid">
 		<h1  style="background: black 15px 50% no-repeat; padding-left: 37px; height: 29px; font-size: 15px; color: #ffffff; font-weight: 700; text-align: left; padding-top: 5px;">

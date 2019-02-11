@@ -55,7 +55,7 @@ public class GisController {
 				map.put("errorYn", "N");
 				//System.out.println("컨트롤"+sangVO);
 				map.put("result", gisService.getSangList(sangVO));
-				map.put("result", "테스트");
+				//map.put("result", "테스트");
 				
 			}catch(Exception e) {
 				e.printStackTrace();

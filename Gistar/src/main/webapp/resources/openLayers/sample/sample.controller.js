@@ -8,7 +8,13 @@
   	  var colorSet = ["#D70000","#FF0000","#FF6600","#FFAA00","#FEE800","#C8E70E","#8ECB12","#5BCC09","#0CC408","#00B406","#0BC2C4","#0FA4D5","#1E85DC","#2F5AE7"];
   	  vm.emdKorNm = [];
   	  vm.traCnt = [];
-  	  
+  	  var overlay = new OpenLayers.Layer.Vector('Overlay', {
+  		  					styleMap : new OpenLayers.StyleMap({
+							            externalGraphic: '/resources/js/img/marker.png',
+							            graphicWidth: 30, graphicHeight: 34,
+							            title: '테스트'
+  		  								})
+     						});
   	  var map = new OpenLayers.Map({ //초기 지도설정
         div: "map", //적용할 div id
         projection: "EPSG:900913",  //투영좌표계??
@@ -20,7 +26,13 @@
         	//마우스의 현재위치값 반환
         	mousemove : function(e){
         		screenxy = this.events.getMousePosition(e);
+        		//console.log(map.getExtent());//현재 
         	}
+		  	,zoomend: function(e){
+		  	console.log(map.getZoom());//현재 지도레벨
+		  	console.log(map.getExtent());//현재 
+		  	
+		  	}
         	//영역을 클릭했을때
         	,featureclick : function(e){
         		//console.log(e.feature.style.label);
@@ -48,7 +60,7 @@
             	//evt.feature.geometry.getBounds().getCenterLonLat(), //정보를 표시할 위치 {lon:x, lat:y}
             	//현재 마우스포인터값 가져와야댐
             	map.getLonLatFromPixel(screenxy),
-            	null, //size
+            	new OpenLayers.Size(200,150), //size
                 "<div class='poptool' style='font-size:.8em;'>"+feature.label+"</div>",//팝업창에 보여줄 내용(HTML)
                 null,
                 true
@@ -74,31 +86,8 @@
 		  
 		  $scope.createMap();
 		  vm.gge();
-		  
-		    var overlay = new OpenLayers.Layer.Vector('Overlay', {
-		        styleMap: new OpenLayers.StyleMap({
-		            externalGraphic: '/resources/js/img/marker.png',
-		            graphicWidth: 40, graphicHeight: 44,
-		            title: '${tooltip}'
-		        })
-		    });
-
-		   
-		    var myLocation = [
-		    	 new OpenLayers.Geometry.Point(126.97889,37.56433).transform(map.displayProjection, map.projection)
-		    	,new OpenLayers.Geometry.Point(126.98019,37.56435).transform(map.displayProjection, map.projection)
-		    	]
-		    
-		    // We add the marker with a tooltip text to the overlay
-		    overlay.addFeatures([
-		         new OpenLayers.Feature.Vector(myLocation[0], {tooltip: 'OpenLayers'})
-		        ,new OpenLayers.Feature.Vector(myLocation[1], {tooltip: 'OpenLayers'})
-		    ]);
-		    map.addLayers([mapnik, overlay]);
-		    //overlay.removeAllFeatures();//마커들 지우기
-		    
 	  }
-	 
+	  
 	  
 	  vm.gge = function(){ //드롭박스에 구정보 불러옴
 		  olService.seoulist().success(function(data) {
@@ -150,29 +139,35 @@
 	  }
 	  
 	  vm.sang = function(data){ //상권정보 가져와서 마커찍기 중
-		  var param = JSON.stringify({sigCd:data.name}); //ajax통신시 json형식을 String으로 cast해서 보내야함
-		  var sd = document.getElementById("selectgu").value;
-		  console.log(sd);
-		  olService.seoulgeom(param).success(function(data) {
-			  //console.log('geom컨트롤러까지 왔음'+data.result.resultlist);
-				  var d = data.result.resultlist;
-				  vm.dongData = d[0].traCnt;
-				  //console.log(d.geom);
-				  $scope.createPolygon(d);
-				  
-				  for(var i = 0; i < d.length; i++){
-					  vm.emdKorNm.push(d[i].emdKorNm);
-					  vm.traCnt.push(d[i].traCnt);
-				  }
-		  });
 		  
+		  var sd = document.getElementById("selectgu").value;
+		  //console.log(sd);
+		  var param = JSON.stringify({upjongMidCd:data, sggCd:sd}); //ajax통신시 json형식을 String으로 cast해서 보내야함
+		  console.log(param);
+		  if(sd == '::서울특별시::'){
+			  alert('구를 선택해 주세요.')
+		  }else{
+			  olService.getsang(param).success(function(data) {
+				  
+				      var myLocation = []; //선택된 구의 상권위치정보를 담을 배열
+				      var markerble = []; //위치정보를 담은 배열을 담을 feature배열
+				      for(i in data.result.resultlist){
+						  var d = data.result.resultlist[i];
+						  myLocation.push(new OpenLayers.Geometry.Point(d.yCrd,d.xCrd).transform(map.displayProjection, map.projection));
+						  markerble.push(new OpenLayers.Feature.Vector(myLocation[i], {tooltip: 'OpenLayers'}));
+				      }
+				      vector.removeAllFeatures();//그려진 동들 지우기
+				      overlay.removeAllFeatures(); //마커들 지우기
+				      overlay.addFeatures(markerble); //생성된 마커정보들 지도에 표시
+			  });
+		  }
 	  }
 	  
 	  $scope.createMap = function(){ //맵 최초생성
 		    map.addLayers([
 		    	mapnik, vector
 		    ]);
-		    
+		    map.addLayers([mapnik, overlay]);
 		    // map ì»¨í¸ë¡¤ ì¶ê° 
 		    //map.addControl(new OpenLayers.Control.LayerSwitcher());     // ì°ì¸¡ ì§ëë³ê²½    ì£¼ìì²ë¦¬
 		    //map.addControl(new OpenLayers.Control.EditingToolbar(vector));  // ì°ì¸¡ ìë¨ 4ê° ì»¨í¸ë¡¤ toolbar
@@ -212,6 +207,7 @@
 			   			,label : d.emdKorNm+'('+d.traCnt+')' //지도에표시할정보
 			   			,strokeColor: 'white' //선색
 			   			,strokeDashstyle: 'longdash' //선모양
+			   			,cursor : 'pointer' //hover시 마우스포인터 모양
 		    	}
 		  }
 	    	vector.removeAllFeatures(); //다른 시군구를 선택했을때 전에 그려진 시군구 초기화
