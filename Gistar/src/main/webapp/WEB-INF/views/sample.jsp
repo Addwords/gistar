@@ -64,7 +64,7 @@ display: none;
 		<div id="map" class="smallmap"></div>
 		<div class="modes">
 		    <span ng-click="vm.sang('Q12')">Cafe</span>
-		    <span ng-click="vm.sang('D03')">편의점</span>
+		    <span ng-click="vm.clust('D03')">편의점</span>
 		</div>
 	</div>
 </div>

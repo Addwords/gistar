@@ -54,6 +54,18 @@ public class GisServiceImpl implements GisService{
 		
 		return resultMap;
 	}
+	
+	//상권정보 클러스터링
+	@Override
+	public Map<String, Object> getSangCluster(SangVO sangVO) {
+		log.info("getSangList : {}", gisMapper.toString());
+		
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<SangVO> resultlist = gisMapper.getSangCluster(sangVO);
+		resultMap.put("resultlist", resultlist);
+		
+		return resultMap;
+	}
 
 	//서울시군구 정보 가져오기
 	@Override

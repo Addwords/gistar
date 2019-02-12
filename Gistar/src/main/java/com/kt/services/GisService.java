@@ -13,6 +13,9 @@ public interface GisService {
 	
 	//선택된 상권 정보 List
 	Map<String, Object> getSangList(SangVO sangVO);
+
+	//선택된 상권 정보 List
+	Map<String, Object> getSangCluster(SangVO sangVO);
 	
 	//서울시 구 정보 List
 	Map<String, Object> getSeoulList();

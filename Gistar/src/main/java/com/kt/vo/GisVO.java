@@ -3,21 +3,29 @@ package com.kt.vo;
 
 public class GisVO {
 
-	private String name;    //이름
-	private int age;       //나이
+	private String emdCd;     //읍면동코드
+	private String emdKorNm;  //읍면동명
+	private String emdGeom;   //읍면동경계영역
 	
-	public String getName() {
-		return name;
+	public String getEmdCd() {
+		return emdCd;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setEmdCd(String emdCd) {
+		this.emdCd = emdCd;
 	}
-	public int getAge() {
-		return age;
+	public String getEmdKorNm() {
+		return emdKorNm;
 	}
-	public void setAge(int age) {
-		this.age = age;
+	public void setEmdKorNm(String emdKorNm) {
+		this.emdKorNm = emdKorNm;
 	}
+	public String getEmdGeom() {
+		return emdGeom;
+	}
+	public void setEmdGeom(String emdGeom) {
+		this.emdGeom = emdGeom;
+	}
+	
 
 	
 

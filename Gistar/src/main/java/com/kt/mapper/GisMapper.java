@@ -14,6 +14,9 @@ public interface GisMapper {
 	
 	//상권정보 가져오기(10건)
 	List<SangVO> getSangList(SangVO sangVO);
+
+	//상권정보 가져오기
+	List<SangVO> getSangCluster(SangVO sangVO);
 	
 	//시군구 정보 가져오기(서울 - 25개 구)
 	List<SangVO> getSeoulList();

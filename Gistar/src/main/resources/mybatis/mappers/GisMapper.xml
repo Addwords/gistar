@@ -7,10 +7,11 @@
 	<select id="selectList" resultType="com.kt.vo.GisVO">
 		<!-- VO랑 변수명 맞춰야함 -->
 	<![CDATA[
-		SELECT
-			  NAME
-			 ,AGE
-		 FROM GISTAR.TEST
+		select 
+			 emdcd
+			,emdkornm 
+			,emdgeom
+		  from sgg_geom
 	]]>
 	</select>
 <!-- AND  sgg_cd = #{sggCd} -->
@@ -25,13 +26,31 @@
 			,ycrd::numeric
 		 FROM TRA_XYCRD_SEOUL
 		WHERE tra_upjong_mid_cd = #{upjongMidCd} --'Q12(커피점/카페)' 'D03(종합소매점(편의점))'
-		  AND  sgg_cd = #{sggCd}
+		  
 		ORDER BY tra_num desc		  
 	    LIMIT 100
 	]]>
 	</select>
+	
+	<!-- 상권정보 가져와서 클러스터링 -->
+	<select id="getSangCluster" parameterType="com.kt.vo.SangVO" resultType="com.kt.vo.SangVO">
+		<!-- VO랑 변수명 맞춰야함 -->
+	<![CDATA[
+		 SELECT
+			 tra_nm --상호명
+			,admdong_nm --읍면동명
+			,xcrd::numeric --map함수에 적용될때는 숫자여야하므로 numeric으로 casting
+			,ycrd::numeric
+		 FROM TRA_XYCRD_SEOUL
+		WHERE tra_upjong_mid_cd = #{upjongMidCd} --'Q12(커피점/카페)' 'D03(종합소매점(편의점))'
+		ORDER BY tra_num desc		  
+	    LIMIT 1000
+	]]>
+	</select>
 
-	<!-- 서울시 구 정보 가져오기 -->
+
+
+	<!-- 서울시 시군구 명 가져오기 -->
 	<select id="getSeoulList" resultType="com.kt.vo.SangVO">
 		<!-- VO랑 변수명 맞춰야함 -->
 		<!-- VO는 언더바 빼야함 -->

@@ -8,6 +8,7 @@
   	  var colorSet = ["#D70000","#FF0000","#FF6600","#FFAA00","#FEE800","#C8E70E","#8ECB12","#5BCC09","#0CC408","#00B406","#0BC2C4","#0FA4D5","#1E85DC","#2F5AE7"];
   	  vm.emdKorNm = [];
   	  vm.traCnt = [];
+  	  
   	  var overlay = new OpenLayers.Layer.Vector('Overlay', {
   		  					styleMap : new OpenLayers.StyleMap({
 							             externalGraphic: '/resources/js/img/marker.png'
@@ -16,6 +17,7 @@
 							            //,title: '테스트'
   		  								})
      						});
+	  	
   	  var map = new OpenLayers.Map({ //초기 지도설정
         div: "map", //적용할 div id
         projection: "EPSG:900913",  //투영좌표계??
@@ -84,16 +86,21 @@
         }//end eventListener
   	  
   	  });
-  	  
-  	 
+  	  //var strategy;
+		  	
+		  	
+
+            
+            
 	  $scope.init = function(){ // 최초실행
 		  
 		  $scope.createMap();
-		  vm.gge();
+		  vm.dropb();
+		  vm.emdgeom();
 	  }
 	  
 	  
-	  vm.gge = function(){ //드롭박스에 구정보 불러옴
+	  vm.dropb = function(){ //드롭박스에 구정보 불러옴
 		  olService.seoulist().success(function(data) {
 			  //console.log('list컨트롤러까지 왔음'+data.result.resultlist[0]);
 			  var sstr = '<option>::서울특별시::</option>';
@@ -102,6 +109,18 @@
 					sstr += '<option value="'+d.sggCd+'">'+d.sggNm+'</option>';
 			  }
 			  $('#selectgu').html(sstr);
+		  });
+		  
+	  }
+
+	  vm.emdgeom = function(){ //읍면동 경계영역정보 담아놓을 함수
+		  olService.emdlist().success(function(data) {
+			  //console.log('list컨트롤러까지 왔음'+data.result.resultlist[0]);
+			  var emdgeomlist = [];
+			  for(i in data.result.resultlist){
+				  var d = data.result.resultlist[i];
+				  	//d.emdCd, d.emdKorNm, d.emdGeom
+			  }
 		  });
 		  
 	  }
@@ -168,6 +187,78 @@
 		  }
 	  }
 	  
+	  vm.clust = function(data){
+		  var myLocation = []; //선택된 구의 상권위치정보를 담을 배열
+		  var param = JSON.stringify({upjongMidCd:data}); //ajax통신시 json형식을 String으로 cast해서 보내야함
+		  olService.getsangclust(param).success(function(data) {
+		      for(i in data.result.resultlist){
+				  var d = data.result.resultlist[i];
+				  myLocation.push(new OpenLayers.Feature.Vector(
+						  new OpenLayers.Geometry.Point(d.yCrd,d.xCrd).transform(map.displayProjection, map.projection)
+						  ),
+				  {x: d.yCrd, y: d.xCrd}
+				  )
+		      }
+		  	});
+		  
+		  var style = new OpenLayers.Style({
+		        pointRadius: "${radius}",
+		        fillColor: "red",
+		        fillOpacity: 0.8,
+		        strokeColor: "black",
+		        strokeWidth: "${width}",
+		        strokeOpacity: 0.8
+		    }, {
+		        context: {
+		            width: function(feature) {
+		                return (feature.cluster) ? 2 : 1;
+		            },
+		            radius: function(feature) {
+		                var pix = 2;
+		                if(feature.cluster) {
+		                    pix = Math.min(feature.attributes.count, 7) + 2;
+		                }
+		                return pix;
+		            }
+		        }
+		    });
+		  var strategy = new OpenLayers.Strategy.Cluster();
+		  var clusters = new OpenLayers.Layer.Vector("Clusters", {
+		        strategies: [strategy],
+		        styleMap: new OpenLayers.StyleMap({
+		            default: style,
+		            select: {
+		                fillColor: "#8aeeef",
+		                strokeColor: "#32a8a9"
+		            }
+		        })
+		    });
+		  var select = new OpenLayers.Control.SelectFeature(
+                  clusters, {hover: true}
+              );
+		      
+              map.addControl(select);
+              select.activate();
+              clusters.events.on({"featureselected": display});
+              map.addLayers([mapnik, clusters]);
+              var distance = 20;
+              var threshold = null;
+              strategy.distance = distance || strategy.distance;
+              strategy.threshold = threshold || strategy.threshold;
+              //document.getElementById("distance").value = strategy.distance;
+              //document.getElementById("threshold").value = strategy.threshold || "null";
+              clusters.removeFeatures(myLocation);
+              //console.log(clusters);
+              clusters.addFeatures(myLocation);
+              map.zoomToExtent(
+  		            new OpenLayers.Bounds(
+  		                126.67168, 37.35204, 127.35146, 37.71306       // ëíë¯¼êµ­ ë²ì ì¤ì 
+  		            ).transform(map.displayProjection, map.projection)
+  		        );
+	  }
+	  
+	  
+	  
 	  $scope.createMap = function(){ //맵 최초생성
 		    map.addLayers([mapnik, vector]); //경계영역 레이어
 		    map.addLayers([mapnik, overlay]); //마커 레이어
@@ -223,4 +314,12 @@
 	    	vector.addFeatures(polyfeatrue); //동정보 그리기
 	    }
 	  $scope.init();
+	  function display(event) {
+          var f = event.feature;
+          if(f.cluster) {
+              console.log( "cluster of " + f.attributes.count)
+          } else {
+        	  console.log( "unclustered " + f.geometry)
+          }
+      }
 });
