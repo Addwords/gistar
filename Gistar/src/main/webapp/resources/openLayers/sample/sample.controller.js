@@ -2,13 +2,15 @@
 	  //계속적으로 event가 발생하거나 변형되는 변수들 전역으로 분리
 	  var vm = this; //controller객체(자신)
 	  var vector = new OpenLayers.Layer.Vector("Editable Vectors"); //경계영역 초기화를 위해 전역선언
+	  var emdvector = new OpenLayers.Layer.Vector("Emd Vectors"); //경계영역 초기화를 위해 전역선언
 	  var mapnik = new OpenLayers.Layer.OSM(); //지도관련lib? ollehmap으로 대체할것임
   	  var format = new OpenLayers.Format.WKT(); //지도관련lib? ollehmap으로 대체할것임
   	  var screenxy = { lon:0, lat:0 };
   	  var colorSet = ["#D70000","#FF0000","#FF6600","#FFAA00","#FEE800","#C8E70E","#8ECB12","#5BCC09","#0CC408","#00B406","#0BC2C4","#0FA4D5","#1E85DC","#2F5AE7"];
   	  vm.emdKorNm = [];
   	  vm.traCnt = [];
-  	  
+  	  var emdgeomlist = [];
+  	  var sung = new OpenLayers.Bounds(0,0,0,0);
   	  var overlay = new OpenLayers.Layer.Vector('Overlay', {
   		  					styleMap : new OpenLayers.StyleMap({
 							             externalGraphic: '/resources/js/img/marker.png'
@@ -27,7 +29,11 @@
         zoomDuration: 10,
         eventListeners : {
         	move : function(e){
-        		//console.log(map.getExtent().getCenterLonLat().clone());	
+        		//console.log(map.getExtent().getCenterLonLat().clone());
+        		//var tf = map.getExtent().getCenterLonLat().clone().containsBounds(emdgeomlist[0].emdgeom);
+        		//var tf = sung[0].containsLonLat(map.getExtent().getCenterLonLat());
+        		
+        		//console.log(tf);
         	}
         	//마우스의 현재위치값 반환
         	,mousemove : function(e){
@@ -93,10 +99,10 @@
             
             
 	  $scope.init = function(){ // 최초실행
-		  
+		  vm.emdgeom();
 		  $scope.createMap();
 		  vm.dropb();
-		  vm.emdgeom();
+		  
 	  }
 	  
 	  
@@ -116,11 +122,27 @@
 	  vm.emdgeom = function(){ //읍면동 경계영역정보 담아놓을 함수
 		  olService.emdlist().success(function(data) {
 			  //console.log('list컨트롤러까지 왔음'+data.result.resultlist[0]);
-			  var emdgeomlist = [];
+			  var temp = [];
 			  for(i in data.result.resultlist){
 				  var d = data.result.resultlist[i];
-				  	//d.emdCd, d.emdKorNm, d.emdGeom
+				  	temp.push(format.read(d.emdGeom));
+				  	//
 			  }
+			  vector.addFeatures(temp);
+			  vector.removeFeatures(temp);
+			  for(i in data.result.resultlist){
+				  var d  = data.result.resultlist[i];
+				  emdgeomlist.push({emdcd:d.emdCd, emdkornm:d.emdKorNm, emdgeom:temp[i].geometry.bounds});
+			  }
+			  
+			  //console.log(dfg.geometry.bounds);
+			  console.log(emdgeomlist[0].emdkornm);
+			  console.log(emdgeomlist[0].emdgeom);
+			  console.log(emdgeomlist[1].emdkornm);
+			  console.log(emdgeomlist[1].emdgeom);
+			  sung.push(emdgeomlist[0].emdgeom);
+			  sung.push(emdgeomlist[1].emdgeom);
+			  console.log(sung);
 		  });
 		  
 	  }
