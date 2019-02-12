@@ -70,7 +70,7 @@
 	<![CDATA[
 		select 
 			 substr(admdong_cd,1,5) as sigCd
-			,st_astext(st_multi(st_union(st_transform(st_setsrid(geom,5179),3857)))) as geom
+			,st_astext(st_multi(st_union(st_transform(st_setsrid(geom,5179),5181)))) as geom
 		  from alp_admdong_alp_m_sum
 		WHERE substr(admdong_cd,1,5) = #{sigCd}
 		group by 1
@@ -110,7 +110,7 @@
         SELECT 	
 		T101.admdong_cd AS emdCd
 		,substr(T101.admdong_nm, 11) AS emdKorNm
-		,st_astext(st_transform(st_setsrid(T101.geom,5179),3857)) AS emdGeom
+		,st_astext(st_transform(st_setsrid(T101.geom,5179),5181)) AS emdGeom
 		,ntile(5) over(ORDER BY T102.cnt desc) AS rank
 		,cnt AS traCnt
 		FROM alp_admdong_alp_m_sum T101
@@ -123,7 +123,7 @@
 	   WHERE T101.admdong_cd like concat(#{sigCd},'%')) T21
         ,(
          select substr(admdong_cd,1,5)as sgg_cd
-               ,st_astext(st_multi(st_union(st_transform(st_setsrid(geom,5179),3857)))) as guGeom
+               ,st_astext(st_multi(st_union(st_transform(st_setsrid(geom,5179),5181)))) as guGeom
            from alp_admdong_alp_m_sum
           where substr(admdong_cd,1,5) like #{sigCd}
           group by 1 ) T22

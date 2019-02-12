@@ -4,7 +4,7 @@
 	  var vector = new OpenLayers.Layer.Vector("Editable Vectors"); //경계영역 초기화를 위해 전역선언
 	  var emdvector = new OpenLayers.Layer.Vector("Emd Vectors"); //경계영역 초기화를 위해 전역선언
 	  var mapnik = new OpenLayers.Layer.OSM(); //지도관련lib? ollehmap으로 대체할것임
-	  var daumMap = new OpenLayers.Layer.Daum();
+	  var daumMap = new OpenLayers.Layer.Daum(); //지도관련lib DaumMap
   	  var format = new OpenLayers.Format.WKT(); //지도관련lib? ollehmap으로 대체할것임
   	  var screenxy = { lon:0, lat:0 };
   	  var colorSet = ["#D70000","#FF0000","#FF6600","#FFAA00","#FEE800","#C8E70E","#8ECB12","#5BCC09","#0CC408","#00B406","#0BC2C4","#0FA4D5","#1E85DC","#2F5AE7"];
@@ -23,14 +23,14 @@
 	  	
   	  var map = new OpenLayers.Map({ //초기 지도설정
         div: "map", //적용할 div id
-        projection: "EPSG:900913",  //투영좌표계??
-        displayProjection: "EPSG:4326", //표시할 투영 좌표계??
+        projection: "EPSG:5181",  //투영좌표계??EPSG:900913
+        displayProjection: "EPSG:5179", //표시할 투영 좌표계??
         numZoomLevels: 7, // 초기 지도 확대 정도인데 아랫부분에 bound함수때매 덮어써짐
         // approximately match Google's zoom animation
         zoomDuration: 10,
         eventListeners : {
         	move : function(e){
-        		//console.log(map.getExtent().getCenterLonLat().clone());
+        		console.log(map.getExtent().getCenterLonLat().clone());
         		//var tf = map.getExtent().getCenterLonLat().clone().containsBounds(emdgeomlist[0].emdgeom);
         		//var tf = sung[0].containsLonLat(map.getExtent().getCenterLonLat());
         		
@@ -39,6 +39,7 @@
         	//마우스의 현재위치값 반환
         	,mousemove : function(e){
         		screenxy = this.events.getMousePosition(e);
+        		//console.log(screenxy);
         	}
   	  		//휠 변환 후 지도레벨 반환
 		  	,zoomend: function(e){
@@ -141,8 +142,8 @@
 			  console.log(emdgeomlist[0].emdgeom);
 			  console.log(emdgeomlist[1].emdkornm);
 			  console.log(emdgeomlist[1].emdgeom);
-			  sung.push(emdgeomlist[0].emdgeom);
-			  sung.push(emdgeomlist[1].emdgeom);
+			  //sung.push(emdgeomlist[0].emdgeom);
+			  //sung.push(emdgeomlist[1].emdgeom);
 			  console.log(sung);
 		  });
 		  
@@ -285,8 +286,8 @@
 	  $scope.createMap = function(){ //맵 최초생성
 		    map.addLayers([daumMap, vector]);
 		    //map.addLayers([mapnik, vector]); //경계영역 레이어
-		    //map.addLayers([mapnik, overlay]); //마커 레이어
-		    // map ì»¨í¸ë¡¤ ì¶ê° 
+		    map.addLayers([daumMap, overlay]); //마커 레이어
+		    // map ì»¨í¸ë¡¤ ì¶ê°  
 		    //map.addControl(new OpenLayers.Control.LayerSwitcher());     // ì°ì¸¡ ì§ëë³ê²½    ì£¼ìì²ë¦¬
 		    //map.addControl(new OpenLayers.Control.EditingToolbar(vector));  // ì°ì¸¡ ìë¨ 4ê° ì»¨í¸ë¡¤ toolbar
 		    //map.addControl(new OpenLayers.Control.Permalink());        // ë§µ ë¤ì ìì±   ì£¼ìì²ë¦¬ 
@@ -295,7 +296,7 @@
 		    //초기에 서울시로 범위셋팅
 		    map.zoomToExtent(
 		            new OpenLayers.Bounds(
-		                126.67168, 37.35204, 127.35146, 37.71306       // ëíë¯¼êµ­ ë²ì ì¤ì 
+		            		195725.7981815, 453422.25002345, 200989.01157, 448844.53255       // ëíë¯¼êµ­ ë²ì ì¤ì 
 		            ).transform(map.displayProjection, map.projection)
 		        );
 		      //hover 컨트롤러 추가

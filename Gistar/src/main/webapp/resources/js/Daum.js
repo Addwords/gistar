@@ -20,7 +20,7 @@ OpenLayers.Layer.Daum = OpenLayers.Class(OpenLayers.Layer.XYZ, {
 	attribution: '<a target="_blank" href="http://local.daum.net/map/index.jsp" '
 		+ 'style="float: left; width: 38px; height: 17px; cursor: pointer; background-image: url(http://i1.daumcdn.net/localimg/localimages/07/2008/map/n_local_img_03_b.png); background-repeat: no-repeat no-repeat; " '
 		+ 'title="Daum 지도로 보시려면 클릭하세요."></a>' 
-		+ 'ⓒ 2012 Daum',
+		+ 'ⓒ 2019 Daum',
 	sphericalMercator: false,
 	transitionEffect: "resize",
 	buffer: 1,
