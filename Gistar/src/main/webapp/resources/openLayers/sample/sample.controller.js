@@ -4,6 +4,7 @@
 	  var vector = new OpenLayers.Layer.Vector("Editable Vectors"); //경계영역 초기화를 위해 전역선언
 	  var emdvector = new OpenLayers.Layer.Vector("Emd Vectors"); //경계영역 초기화를 위해 전역선언
 	  var mapnik = new OpenLayers.Layer.OSM(); //지도관련lib? ollehmap으로 대체할것임
+	  var daumMap = new OpenLayers.Layer.Daum();
   	  var format = new OpenLayers.Format.WKT(); //지도관련lib? ollehmap으로 대체할것임
   	  var screenxy = { lon:0, lat:0 };
   	  var colorSet = ["#D70000","#FF0000","#FF6600","#FFAA00","#FEE800","#C8E70E","#8ECB12","#5BCC09","#0CC408","#00B406","#0BC2C4","#0FA4D5","#1E85DC","#2F5AE7"];
@@ -282,8 +283,9 @@
 	  
 	  
 	  $scope.createMap = function(){ //맵 최초생성
-		    map.addLayers([mapnik, vector]); //경계영역 레이어
-		    map.addLayers([mapnik, overlay]); //마커 레이어
+		    map.addLayers([daumMap, vector]);
+		    //map.addLayers([mapnik, vector]); //경계영역 레이어
+		    //map.addLayers([mapnik, overlay]); //마커 레이어
 		    // map ì»¨í¸ë¡¤ ì¶ê° 
 		    //map.addControl(new OpenLayers.Control.LayerSwitcher());     // ì°ì¸¡ ì§ëë³ê²½    ì£¼ìì²ë¦¬
 		    //map.addControl(new OpenLayers.Control.EditingToolbar(vector));  // ì°ì¸¡ ìë¨ 4ê° ì»¨í¸ë¡¤ toolbar

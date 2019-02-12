@@ -12,6 +12,7 @@
 <script type="text/javascript" src="/resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery.bpopup.min.js"></script>
 <script type="text/javascript" src="/resources/js/Chart.js"></script>
+<script type="text/javascript" src="/resources/js/Daum.js"></script>
 
 
 
