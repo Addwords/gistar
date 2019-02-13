@@ -13,6 +13,7 @@
 <script type="text/javascript" src="/resources/js/jquery.bpopup.min.js"></script>
 <script type="text/javascript" src="/resources/js/Chart.js"></script>
 <script type="text/javascript" src="/resources/js/Daum.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.jqGrid.min.js"></script>
 
 
 
@@ -20,3 +21,4 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/base.css"/>
 <link rel="stylesheet" type="text/css" href="/resources/css/ol.css"/>
 <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
+<link rel="stylesheet" type="text/css" href="/resources/css/ui.jqgrid.css"/>
