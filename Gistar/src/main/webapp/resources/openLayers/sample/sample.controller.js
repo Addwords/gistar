@@ -2,16 +2,12 @@
 	  // 계속적으로 event가 발생하거나 변형되는 변수들 전역으로 분리
 	  var vm = this; // controller객체(자신)
 	  var vector = new OpenLayers.Layer.Vector("Editable Vectors"); // 경계영역 초기화를
-																	// 위해 전역선언
 	  var emdvector = new OpenLayers.Layer.Vector("Emd Vectors"); // 경계영역 초기화를
-																	// 위해 전역선언
 	  var mapnik = new OpenLayers.Layer.OSM(); // 지도관련lib? ollehmap으로 대체할것임
 	  var daumMap = new OpenLayers.Layer.Daum(); // 지도관련lib DaumMap
   	  var format = new OpenLayers.Format.WKT(); // 지도관련lib? ollehmap으로 대체할것임
   	  var screenxy = { lon:0, lat:0 };
   	  var colorSet = ["#D70000","#FF0000","#FF6600","#FFAA00","#FEE800","#C8E70E","#8ECB12","#5BCC09","#0CC408","#00B406","#0BC2C4","#0FA4D5","#1E85DC","#2F5AE7"];
-// vm.emdKorNm = [];
-// vm.traCnt = [];
   	  var emdgeomlist = [];
   	  vm.traNm = []; // 상권 이름
   	  vm.admdongNm = []; // 상권 위치
@@ -55,9 +51,6 @@
 		  	}
         	// 영역을 클릭했을때
         	,featureclick : function(e){
-        		// console.log(e.feature.style.label);
-// alert("click"+e.feature.style.label);
-        		vm.chartCall();
         		$("#popup").bPopup({
     				follow: [true, true],
     				position: ['auto', 30],
@@ -170,14 +163,13 @@
 	  vm.gcon = function(data){ // 시군구코드 보내기용(value값은 name)
 		  vm.emdKorNm = [];
 		  vm.traCnt = [];
+		  $('#myChart').remove();
+		  $('#wrapChart').html('<canvas id="myChart" style="width: 970px; height: 400px;"></canvas>');
+		  
 		  if(data.name =='::서울특별시::'){
 			  return null;
 		  }
 		  var param = JSON.stringify({sigCd:data.name}); // ajax통신시 json형식을
-															// String으로 cast해서
-															// 보내야함
-		  
-		  
 		  olService.seoulgeom(param).success(function(data) {
 			  // console.log('geom컨트롤러까지 왔음'+data.result.resultlist);
 				  var d = data.result.resultlist;
@@ -192,11 +184,8 @@
 		  });
 		  
 		  // ChartJS
-	  vm.chartCall = function(){
-		  var ctx = ""
-		  var myChart = ""
 		  ctx = document.getElementById("myChart").getContext('2d');
-		  myChart = new Chart(ctx, {
+		  var myChart = new Chart(ctx, {
 			  type: 'bar',
 			  data: {
 				  labels: vm.emdKorNm,
@@ -207,7 +196,6 @@
 				  }]
 			  }
 		  });
-	  }
 	  }
 	  
 	  vm.sang = function(data){ // 상권정보 가져와서 마커찍기 중

@@ -97,7 +97,7 @@ img{vertical-align:top}
 		</h1>
 		<div style="padding: 15px 15px 15px 15px; background: #ffffff; overflow-x: hidden; overflow-y: auto; width: 1040px; height: 599px;">
 			<h2 id="ptitle">지역별 상권현황</h2>
-			<div style="width: 970px; height: 400px; padding: 10px 15px 15px 15px; margin-bottom:15px; border: #4a4a4a 1px solid">
+			<div id="wrapChart" style="width: 970px; height: 400px; padding: 10px 15px 15px 15px; margin-bottom:15px; border: #4a4a4a 1px solid">
 				<canvas id="myChart" style="width: 970px; height: 400px;"></canvas>
 			</div>
 <!-- 			<div class=""> -->
