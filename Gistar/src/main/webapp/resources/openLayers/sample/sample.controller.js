@@ -8,8 +8,8 @@
   	  var format = new OpenLayers.Format.WKT(); //지도관련lib? ollehmap으로 대체할것임
   	  var screenxy = { lon:0, lat:0 };
   	  var colorSet = ["#D70000","#FF0000","#FF6600","#FFAA00","#FEE800","#C8E70E","#8ECB12","#5BCC09","#0CC408","#00B406","#0BC2C4","#0FA4D5","#1E85DC","#2F5AE7"];
-  	  vm.emdKorNm = [];
-  	  vm.traCnt = [];
+//  	  vm.emdKorNm = [];
+//  	  vm.traCnt = [];
   	  var emdgeomlist = [];
   	  var sung = new OpenLayers.Bounds(0,0,0,0);
   	  var overlay = new OpenLayers.Layer.Vector('Overlay', {
@@ -54,7 +54,7 @@
         		$("#popup").bPopup({
     				follow: [true, true],
     				position: ['auto', 30],
-    				modalClose: true
+    				modalClose: false
         		});  
         	}
   	  		//영역에 마우스를 올렸을때
@@ -97,16 +97,18 @@
   	  //var strategy;
 		  	
 		  	
-
-            
-            
+	            
+	            
 	  $scope.init = function(){ // 최초실행
-		  vm.emdgeom();
+//		  vm.emdgeom();
 		  $scope.createMap();
 		  vm.dropb();
 		  
 	  }
 	  
+	  vm.closePopup = function(){
+		  $("#popup").bPopup().close();
+	  }  
 	  
 	  vm.dropb = function(){ //드롭박스에 구정보 불러옴
 		  olService.seoulist().success(function(data) {
@@ -151,6 +153,8 @@
 	  
 	  
 	  vm.gcon = function(data){ //시군구코드 보내기용(value값은 name)
+		  vm.emdKorNm = [];
+		  vm.traCnt = [];
 		  if(data.name =='::서울특별시::'){
 			  return null;
 		  }
@@ -338,6 +342,8 @@
 	    	vector.removeAllFeatures(); //다른 시군구를 선택했을때 전에 그려진 시군구 초기화
 	    	vector.addFeatures(polyfeatrue); //동정보 그리기
 	    }
+	  
+	  
 	  $scope.init();
 	  function display(event) {
           var f = event.feature;
