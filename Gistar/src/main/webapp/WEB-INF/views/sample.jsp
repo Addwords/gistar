@@ -32,7 +32,18 @@
 	overflow: hidden;
 	width: 100%;
 }
-.modes {position: absolute;top: 10px;left: 10px;z-index: 1;}
+#selectgu{
+position:absolute;
+top: 10px;
+left: 10px;
+z-index: 1001;
+}
+.modes{
+position:absolute;
+top: 40px;
+left: 10px;
+z-index: 1001;
+}
 .modes span{
 width: 60px;
 height: 60px;
@@ -55,7 +66,7 @@ display: none;
 img{vertical-align:top}  
 
 /* 맵 위에 그리드 올리기 */
-.layer-info-wrap {position:absolute;left: 31px;top:67.9%;margin-top:-90px;min-height:202px;z-index:1001;}  
+.layer-info-wrap {position:absolute;left: 1px;top:67.9%;margin-top:-90px;min-height:202px;z-index:1001;}  
 .layer-info-wrap .layer-info-box {width:1800px;height:380px;border:1px solid #c1c1c1;background:#f5f5f5;     opacity: 0.9;}
 .layer-info-wrap .layer-info-btn {position:absolute;float:left;top:45%;margin-top:-66px;z-index:-1}
 .layer-info-wrap .layer-info-btn .btn-layer.on{margin-left:1800px;display:inline-block;background:url('https://bigsight.kt.com/bdip/assets/img/tra/common/btn_quick_info.png') left top no-repeat;text-indent:-9999px;width:28px;height:132px;}
@@ -71,11 +82,16 @@ img{vertical-align:top}
 	<div id="objec"></div>
 	<div class="map_wrap">
 		<div id="map" class="smallmap">
-			<div class="layer-info-wrap">
-				<div class="layer-info-box" ng-show="vm.showLayerBar==true">
-					<select ng-model="name" id="selectgu" style="height:30px;" name="sggnm" ng-change="vm.gcon(this)">
+		<select ng-model="name" id="selectgu" style="height:30px; display: block;" name="sggnm" ng-change="vm.gcon(this)">
 						<option>::서울시</option> 
 				    </select> 
+		<div class="modes">
+                      <span ng-click="vm.sang('Q12')">Cafe</span>
+                      <span ng-click="vm.sang('D03')">편의점</span>
+                   </div>
+                   
+			<div class="layer-info-wrap">
+				<div class="layer-info-box" ng-show="vm.showLayerBar==true">
 					<div class="fr_search" >
 						<h4 >전국 편의점 찾기</h4>
 						<hr> 

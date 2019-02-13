@@ -4,6 +4,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <%@ include file="/WEB-INF/views/common/include/include.jspf"%>
+<link rel="shortcut icon" href="/resources/js/img/favicon.ico">
 </head>
 <body>
 <!-- 적용할 타일들 설정하는 부분-->

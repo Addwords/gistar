@@ -30,13 +30,7 @@
         zoomDuration: 10,
         eventListeners : {
         	move : function(e){
-        		console.log(map.getExtent().getCenterLonLat().clone());
-        		// var tf =
-				// map.getExtent().getCenterLonLat().clone().containsBounds(emdgeomlist[0].emdgeom);
-        		// var tf =
-				// sung[0].containsLonLat(map.getExtent().getCenterLonLat());
-        		
-        		// console.log(tf);
+        		//console.log(map.getExtent().getCenterLonLat().clone());
         	}
         	// 마우스의 현재위치값 반환
         	,mousemove : function(e){
@@ -45,7 +39,7 @@
         	}
   	  		// 휠 변환 후 지도레벨 반환
 		  	,zoomend: function(e){
-		  	console.log(map.getZoom());// 현재 지도레벨
+		  	//console.log(map.getZoom());// 현재 지도레벨
 		  	// console.log(map.getExtent());//현재 지도 bounds값
 		  	// vm.sang();
 		  	}
@@ -105,7 +99,7 @@
 	            
 	  $scope.init = function(){ // 최초실행
 // vm.emdgeom();
-		  vm.showLayerBar = true;
+		  vm.showLayerBar = false;
 		  $scope.createMap();
 		  vm.dropb();
 		  vm.makeGrid("D03");
