@@ -11,13 +11,15 @@
   	  var emdgeomlist = [];
   	  vm.traNm = []; // 상권 이름
   	  vm.admdongNm = []; // 상권 위치
+  	  var emdKor;
   	  var sung = new OpenLayers.Bounds(0,0,0,0);
   	  var overlay = new OpenLayers.Layer.Vector('Overlay', {
   		  					styleMap : new OpenLayers.StyleMap({
 							             externalGraphic: '/resources/js/img/marker.png'
 							            ,graphicWidth: 30
 							            ,graphicHeight: 34
-							            // ,title: '테스트'
+							            ,graphicYOffset: -34
+							            ,title: '${tooltip}'
   		  								})
      						});
 	  	
@@ -37,6 +39,12 @@
         		screenxy = this.events.getMousePosition(e);
         		// console.log(screenxy);
         	}
+        	,click : function(e){
+        		screenxy = this.events.getMousePosition(e);
+        		//console.log(map.getLonLatFromPixel(screenxy));
+        		var lonlat = map.getLonLatFromPixel(screenxy);
+        		vm.emdgeom(lonlat);
+        	}
   	  		// 휠 변환 후 지도레벨 반환
 		  	,zoomend: function(e){
 		  	//console.log(map.getZoom());// 현재 지도레벨
@@ -54,8 +62,6 @@
   	  		// 영역에 마우스를 올렸을때
   	  		,featureover : function(evt){
 		  	  		var feature = evt.feature.style;
-		  	  		// console.log(feature);
-		  	  		
 		  	  	    feature.fillOpacity = 0.9;// 마우스를 올렸을때 색 진하게 하기
 		  	  		// 툴팁 겹침현상 해결을위해 x,y좌표 30씩 늘려줌
 		  	  		var vx = screenxy.x+30;
@@ -63,20 +69,13 @@
 		  	  		screenxy.x = vx;
 		  	  		screenxy.y = vy;
 		  	  		
-		  	  		// console.log(screenxy);
-		            var popup = new OpenLayers.Popup("tooltip",
-		            	// evt.feature.geometry.getBounds().getCenterLonLat(),
-						// //정보를 표시할 위치 {lon:x, lat:y}
-		            	// 현재 마우스포인터값 가져와야댐
-		            	map.getLonLatFromPixel(screenxy),
+		            var popup = new OpenLayers.Popup("tooltip", //팝업의 id
+		            	map.getLonLatFromPixel(screenxy), //현재 마우스의 위치  = 정보를 표시할 위치 {lon:x, lat:y}
 		            	new OpenLayers.Size(200,150), // size
-		                "<div class='poptool' style='font-size:.8em;'>"+feature.label+"</div>",// 팝업창에
-																								// 보여줄
-																								// 내용(HTML)
+		                "<div class='poptool' style='font-size:.8em;'>"+feature.label+"</div>",// 툴팁에 보여줄 내용(HTML)
 		                null,
 		                true
             );
-            // popup.backgroundColor('black');
             feature.popup = popup;
             map.addPopup(popup);
   	  		}
@@ -89,28 +88,19 @@
                 feature.popup = null;
             }
         }// end eventListener
-  	  
   	  });
-  	  // var strategy;
 		  	
-  	 
-
-	            
 	            
 	  $scope.init = function(){ // 최초실행
-// vm.emdgeom();
 		  vm.showLayerBar = false;
 		  $scope.createMap();
 		  vm.dropb();
 		  vm.makeGrid("D03");
 	  }
+	  
 	  $scope.toggleLayerBar = function() {
 			vm.showLayerBar = !vm.showLayerBar;	
 		}
-	  vm.closePopup = function(){
-		  $("#popup").attr("layer-report-popup", "");
-		  $("#popup").bPopup().close();
-	  }  
 	  
 	  vm.dropb = function(){ // 드롭박스에 구정보 불러옴
 		  olService.seoulist().success(function(data) {
@@ -125,32 +115,39 @@
 		  
 	  }
 
-	  vm.emdgeom = function(){ // 읍면동 경계영역정보 담아놓을 함수
-		  olService.emdlist().success(function(data) {
-			  // console.log('list컨트롤러까지 왔음'+data.result.resultlist[0]);
-			  var temp = [];
-			  for(i in data.result.resultlist){
-				  var d = data.result.resultlist[i];
-				  	temp.push(format.read(d.emdGeom));
-				  	//
-			  }
-			  vector.addFeatures(temp);
-			  vector.removeFeatures(temp);
-			  for(i in data.result.resultlist){
-				  var d  = data.result.resultlist[i];
-				  emdgeomlist.push({emdcd:d.emdCd, emdkornm:d.emdKorNm, emdgeom:temp[i].geometry.bounds});
-			  }
-			  
-			  // console.log(dfg.geometry.bounds);
-			  console.log(emdgeomlist[0].emdkornm);
-			  console.log(emdgeomlist[0].emdgeom);
-			  console.log(emdgeomlist[1].emdkornm);
-			  console.log(emdgeomlist[1].emdgeom);
-			  // sung.push(emdgeomlist[0].emdgeom);
-			  // sung.push(emdgeomlist[1].emdgeom);
-			  console.log(sung);
+	  vm.emdgeom = function(data){ //클릭한 현재위치정보가 어느 동에 속해있는지
+		  //console.log(data.lon);
+		  //console.log(data.lat);
+		  var param = JSON.stringify({lon:data.lon, lat:data.lat}); // ajax통신시 json형식을
+		  console.log(param);
+		  overlay.removeAllFeatures();
+		  olService.emdlist(param).success(function(data) {
+			  // console.log('list컨트롤러까지 왔음'+data.result.resultlist[0]);/resources/js/img/marker.png
+			  var d = data.result.resultlist;
+			  emdKor = d[0].emdKorNm;
+			  //console.log(emdKor);
+			  var popup = new OpenLayers.Popup.FramedCloud("Popups", 
+			    		myLocations.getBounds().getCenterLonLat()
+			        ,null
+			        ,'<p>'+emdKor+'</p>'
+			        ,null
+			        ,false
+			    );
+			  map.removePopup(popup)
+			  map.addPopup(popup);
 		  });
+		  //console.log(emdKor);
 		  
+		    var myLocations = new OpenLayers.Geometry.Point(data.lon, data.lat)
+		        .transform(map.displayProjection, map.projection);
+
+		    overlay.addFeatures([
+		        new OpenLayers.Feature.Vector(myLocations, {tooltip: 'OpenLayers'})
+		    ]);
+
+		    
+		    //map.addLayer([mapnik, overlay]);
+		    
 	  }
 	  
 	  
@@ -213,9 +210,10 @@
 				      var markerble = []; // 위치정보를 담은 배열을 담을 feature배열
 				      for(i in data.result.resultlist){
 						  var d = data.result.resultlist[i];
-						  myLocation.push(new OpenLayers.Geometry.Point(d.yCrd,d.xCrd).transform(map.displayProjection, map.projection));
+						  myLocation.push(new OpenLayers.Geometry.Point(d.xCrd,d.yCrd).transform(map.displayProjection, map.projection));
 						  markerble.push(new OpenLayers.Feature.Vector(myLocation[i], {title:d.traNm}));
 				      }
+				      console.log(myLocation[0]);
 				      vector.removeAllFeatures();  // 그려진 동들 지우기
 				      overlay.removeAllFeatures(); // 마커들 지우기
 				      overlay.addFeatures(markerble); // 생성된 마커정보들 지도에 표시
@@ -225,22 +223,16 @@
 	  
 	  vm.clust = function(data){
 		  var myLocation = []; // 선택된 구의 상권위치정보를 담을 배열
-		  var param = JSON.stringify({upjongMidCd:data}); // ajax통신시 json형식을
-															// String으로 cast해서
-															// 보내야함
+		  var param = JSON.stringify({upjongMidCd:data}); // ajax통신시 json형식을 String으로 cast해서 보내야함
 		  olService.getsangclust(param).success(function(data) {
 		      for(i in data.result.resultlist){
 				  var d = data.result.resultlist[i];
 				  myLocation.push(new OpenLayers.Feature.Vector(
-						  new OpenLayers.Geometry.Point(d.yCrd,d.xCrd).transform(map.displayProjection, map.projection)
+						  new OpenLayers.Geometry.Point(d.xCrd,d.yCrd).transform(map.displayProjection, map.projection)
 						  ),
-				  {x: d.yCrd, y: d.xCrd}
+				  {x: d.xCrd, y: d.yCrd}
 				  )
 		      }
-		      for(var j = 0; j < 100; j++){
-		    	  vm.traNm.push(data.result.resultlist[j].traNm);
-		      }
-//		      vm.makeGrid(vm.traNm);
 		  	});
 		  var style = new OpenLayers.Style({
 		        pointRadius: "${radius}",
@@ -282,7 +274,7 @@
               select.activate();
               clusters.events.on({"featureselected": display});
               map.addLayers([mapnik, clusters]);
-              var distance = 20;
+              var distance = 50;
               var threshold = null;
               strategy.distance = distance || strategy.distance;
               strategy.threshold = threshold || strategy.threshold;
@@ -293,13 +285,10 @@
               clusters.removeFeatures(myLocation);
               // console.log(clusters);
               clusters.addFeatures(myLocation);
-              map.zoomToExtent(
-  		            new OpenLayers.Bounds(
-  		                126.67168, 37.35204, 127.35146, 37.71306       // ëíë¯¼êµ­
-																		// ë²ì
-																		// ì¤ì 
+              /*map.zoomToExtent(
+  		            new OpenLayers.Bounds(126.67168, 37.35204, 127.35146, 37.71306
   		            ).transform(map.displayProjection, map.projection)
-  		        );
+  		        );*/
 	  }
 	  
 	  
@@ -320,9 +309,7 @@
 		    // 초기에 서울시로 범위셋팅
 		    map.zoomToExtent(
 		            new OpenLayers.Bounds(
-		            		195725.7981815, 453422.25002345, 200989.01157, 448844.53255       // ëíë¯¼êµ­
-																								// ë²ì
-																								// ì¤ì 
+		            		195725.7981815, 453422.25002345, 200989.01157, 448844.53255
 		            ).transform(map.displayProjection, map.projection)
 		        );
 		      // hover 컨트롤러 추가
@@ -341,24 +328,16 @@
 	  // 동별 색칠하기 --5분위로 나눔(법정동 과 행정동 둘중하나로 통일해야됨)
 	  $scope.createPolygon = function(param){
 		  var polyfeatrue = [];
-		  var color = ['red','orange','yellow','lightgreen','green']; // 5분위에
-																		// 해당하는
-																		// 색정보(order
-																		// by
-																		// 상권수
-																		// desc)
+		  var color = ['red','orange','yellow','lightgreen','green']; // 5분위에 해당하는 색정보(order by 상권수 desc)
 		  var gugeo = format.read(param[0].guGeom);// 선택한 시군구의 geometry값 셋팅
-		  vector.addFeatures(gugeo); // 선택한 시군구의 bounds값을 가져오기 위해 feature생성,
-										// 동정보와 겹치기 때문에 remove전에 선언
-		  map.zoomToExtent(gugeo.geometry.getBounds()); // 선택한 시군구의 bounds값으로
-														// 화면이동
+		  vector.addFeatures(gugeo); // 선택한 시군구의 bounds값을 가져오기 위해 feature생성, 동정보와 겹치기 때문에 remove전에 선언
+		  map.zoomToExtent(gugeo.geometry.getBounds()); // 선택한 시군구의 bounds값으로 화면이동
 		  
 		  for(i in param){
 			   var d = param[i];
 			   polyfeatrue.push(format.read(d.emdGeom));
 			   polyfeatrue[i].style = {
-		    			 fillColor : color[d.rank-1] // color[d.rank] --분위는
-														// 1부터 시작이므로 -1 해주어야 함
+		    			 fillColor : color[d.rank-1] // color[d.rank] --분위는 1부터 시작이므로 -1 해주어야 함
 			   			,fillOpacity : 0.6 // 투명도 = 1에 가까울수록 진한색
 			   			,fontSize: 12 // 글자크기
 			   			,Title : d.emdKorNm // 제목
@@ -385,6 +364,7 @@
 		      vm.traGrid();
 		  	});
 	  }
+	  
 	  vm.traGrid = function(){ 
 		  // 가상의 local json data
 		  var gridData = [];
@@ -417,7 +397,6 @@
 			  $("#list").jqGrid('addRowData',i+1,gridData[i]);
 		  }
 	  }
-	  // 출처: https://hellogk.tistory.com/83 [IT Code Storage]
 	  $scope.init();
 	  function display(event) {
           var f = event.feature;

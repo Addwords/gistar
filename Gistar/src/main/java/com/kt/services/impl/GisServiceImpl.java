@@ -27,7 +27,7 @@ public class GisServiceImpl implements GisService{
 	
 	//게시글 list
 	@Override
-	public Map<String, Object> selectList() {
+	public Map<String, Object> selectList(GisVO gisVO) {
 		
 		log.info("selectPostList : {}", gisMapper.toString());
 		
@@ -35,7 +35,7 @@ public class GisServiceImpl implements GisService{
 		
 		//int listcnt = gisMapper.selectList();
 		
-		List<GisVO> resultlist = gisMapper.selectList();
+		List<GisVO> resultlist = gisMapper.selectList(gisVO);
 		
 		//resultMap.put("listcnt", listcnt);
 		resultMap.put("resultlist", resultlist);

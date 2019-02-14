@@ -2,14 +2,15 @@ package com.kt.services;
 
 import java.util.Map;
 
+import com.kt.vo.GisVO;
 import com.kt.vo.SangVO;
 import com.kt.vo.guVO;
 
 public interface GisService {
 
 	
-	//전체 게시글 List
-	Map<String, Object> selectList();
+	//asdfsadf
+	Map<String, Object> selectList(GisVO gisVO);
 	
 	//선택된 상권 정보 List
 	Map<String, Object> getSangList(SangVO sangVO);
@@ -25,5 +26,6 @@ public interface GisService {
 
 	//서울시 읍면동 경계영역
 	Map<String, Object> getEmdGeom(guVO guVO);
+
 	
 }

@@ -4,14 +4,13 @@
 <mapper namespace="com.kt.mapper.GisMapper">
 
 	<!-- 게시글 list -->
-	<select id="selectList" resultType="com.kt.vo.GisVO">
+	<select id="selectList" parameterType="com.kt.vo.GisVO" resultType="com.kt.vo.GisVO">
 		<!-- VO랑 변수명 맞춰야함 -->
 	<![CDATA[
-		select 
-			 emdcd
-			,emdkornm 
-			,emdgeom
-		  from sgg_geom
+		select admdong_cd as emdCd
+       ,admdong_nm as emdKorNm
+  	from alp_admdong_alp_m_sum
+ 	where st_contains(st_transform(st_setsrid(geom,5179),5181), st_setsrid(st_point(#{lon},#{lat}),5181)) = 't'
 	]]>
 	</select>
 <!-- AND  sgg_cd = #{sggCd} -->
@@ -26,7 +25,6 @@
 			,ycrd::numeric
 		 FROM TRA_XYCRD_SEOUL
 		WHERE tra_upjong_mid_cd = #{upjongMidCd} --'Q12(커피점/카페)' 'D03(종합소매점(편의점))'
-		  
 		ORDER BY tra_num desc		  
 	    LIMIT 100
 	]]>
@@ -44,7 +42,7 @@
 		 FROM TRA_XYCRD_SEOUL
 		WHERE tra_upjong_mid_cd = #{upjongMidCd} --'Q12(커피점/카페)' 'D03(종합소매점(편의점))'
 		ORDER BY tra_num desc		  
-	    LIMIT 1000
+	    --LIMIT 5000
 	]]>
 	</select>
 

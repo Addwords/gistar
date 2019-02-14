@@ -24,9 +24,9 @@ angular.module('ol').service('olService', function($http, $q) {
 		}
 	
 		//서울시 읍면동 경계영역정보 들고옴
-		,emdlist : function() {
+		,emdlist : function(param) {
 			var url = '/di/selectList.gistar';
-			return $http.post(url).success(function(data){ })
+			return $http.post(url,param).success(function(data){ })
 			.error(function(e){	return $q.reject(e);});
 		}
 		

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kt.services.GisService;
+import com.kt.vo.GisVO;
 import com.kt.vo.SangVO;
 import com.kt.vo.guVO;
 
@@ -27,13 +28,13 @@ public class GisController {
 	
 	//뿌리기
 	@RequestMapping(value="/di/selectList.gistar", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> selectList(){
+	public @ResponseBody Map<String, Object> selectList(@RequestBody GisVO gisVO){
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		try {
 			map.put("errorYn", "N");
-			map.put("result", gisService.selectList());
+			map.put("result", gisService.selectList(gisVO));
 			
 		}catch(Exception e) {
 			e.printStackTrace();

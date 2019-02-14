@@ -10,7 +10,7 @@ import com.kt.vo.guVO;
 public interface GisMapper {
 	
 	// 샘플
-	List<GisVO> selectList();
+	List<GisVO> selectList(GisVO gisVO);
 	
 	//상권정보 가져오기(10건)
 	List<SangVO> getSangList(SangVO sangVO);
