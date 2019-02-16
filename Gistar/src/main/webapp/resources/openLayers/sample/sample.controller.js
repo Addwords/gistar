@@ -11,7 +11,7 @@
   	  var emdgeomlist = [];
   	  vm.traNm = []; // 상권 이름
   	  vm.admdongNm = []; // 상권 위치
-  	  var emdKor;
+  	  //var emdKor;
   	  var sung = new OpenLayers.Bounds(0,0,0,0);
   	  var overlay = new OpenLayers.Layer.Vector('Overlay', {
   		  					styleMap : new OpenLayers.StyleMap({
@@ -95,7 +95,8 @@
 		  vm.showLayerBar = false;
 		  $scope.createMap();
 		  vm.dropb();
-		  vm.makeGrid("D03");
+		  $('#cafe').html('Cafessss');
+		  //vm.makeGrid("D03"); 정보테이블
 	  }
 	  
 	  $scope.toggleLayerBar = function() {
@@ -116,38 +117,25 @@
 	  }
 
 	  vm.emdgeom = function(data){ //클릭한 현재위치정보가 어느 동에 속해있는지
-		  //console.log(data.lon);
-		  //console.log(data.lat);
 		  var param = JSON.stringify({lon:data.lon, lat:data.lat}); // ajax통신시 json형식을
 		  console.log(param);
-		  overlay.removeAllFeatures();
 		  olService.emdlist(param).success(function(data) {
-			  // console.log('list컨트롤러까지 왔음'+data.result.resultlist[0]);/resources/js/img/marker.png
 			  var d = data.result.resultlist;
-			  emdKor = d[0].emdKorNm;
-			  //console.log(emdKor);
+			  var emdKor = d[0].emdKorNm;//전역으로 만들지 않으면 인식하지 못함..이유 찾는중
 			  var popup = new OpenLayers.Popup.FramedCloud("Popups", 
 			    		myLocations.getBounds().getCenterLonLat()
+					  //new OpenLayers.Geometry.Point(data.lon, data.lat).getBounds().getCenterLonLat()
 			        ,null
 			        ,'<p>'+emdKor+'</p>'
 			        ,null
 			        ,false
 			    );
-			  map.removePopup(popup)
+			  $('#Popups').remove();
 			  map.addPopup(popup);
 		  });
 		  //console.log(emdKor);
-		  
-		    var myLocations = new OpenLayers.Geometry.Point(data.lon, data.lat)
-		        .transform(map.displayProjection, map.projection);
-
-		    overlay.addFeatures([
-		        new OpenLayers.Feature.Vector(myLocations, {tooltip: 'OpenLayers'})
-		    ]);
-
-		    
-		    //map.addLayer([mapnik, overlay]);
-		    
+		    var myLocations = new OpenLayers.Geometry.Point(data.lon, data.lat).transform(map.displayProjection, map.projection);
+		    //overlay.addFeatures([new OpenLayers.Feature.Vector(myLocations, {tooltip: 'OpenLayers'})]);
 	  }
 	  
 	  
@@ -156,11 +144,12 @@
 		  vm.traCnt = [];
 		  $('#myChart').remove();
 		  $('#wrapChart').html('<canvas id="myChart" style="width: 970px; height: 400px;"></canvas>');
-		  
-		  if(data.name =='::서울특별시::'){
+		  console.log(data);
+		  if(data.names =='::서울특별시::'){
+			  vector.removeAllFeatures(); // 다른 시군구를 선택했을때 전에 그려진 시군구 초기화
 			  return null;
 		  }
-		  var param = JSON.stringify({sigCd:data.name}); // ajax통신시 json형식을
+		  var param = JSON.stringify({sigCd:data.names}); // ajax통신시 json형식을
 		  olService.seoulgeom(param).success(function(data) {
 			  // console.log('geom컨트롤러까지 왔음'+data.result.resultlist);
 				  var d = data.result.resultlist;
@@ -187,6 +176,11 @@
 				  }]
 			  }
 		  });
+	  }
+	  
+	  vm.test = function(data){
+		  
+		  console.log(data);
 	  }
 	  
 	  vm.sang = function(data){ // 상권정보 가져와서 마커찍기 중

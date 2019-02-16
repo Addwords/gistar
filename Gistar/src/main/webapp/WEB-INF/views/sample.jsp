@@ -82,13 +82,13 @@ img{vertical-align:top}
 	<div id="objec"></div>
 	<div class="map_wrap">
 		<div id="map" class="smallmap">
-		<select ng-model="name" id="selectgu" style="height:30px; display: block;" name="sggnm" ng-change="vm.gcon(this)">
-						<option>::서울시</option> 
-				    </select> 
+			<select ng-model="names" id="selectgu" style="height:30px; display: block;" name="sggnm" ng-change="vm.gcon(this)">
+				<option>::서울시</option> 
+			</select> 
 		<div class="modes">
-                      <span ng-click="vm.sang('Q12')">Cafe</span>
-                      <span ng-click="vm.clust('D03')">편의점</span>
-                   </div>
+                      <span ng-model="cake" id="cafe" ng-click="vm.test(this)">Cafe</span>
+                      <span ng-click="vm.clust('D03')" class="btn-nagative" value="convenience">편의점</span>
+        </div>
                    
 			<div class="layer-info-wrap">
 				<div class="layer-info-box" ng-show="vm.showLayerBar==true">

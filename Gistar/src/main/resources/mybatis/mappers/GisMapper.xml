@@ -42,7 +42,7 @@
 		 FROM TRA_XYCRD_SEOUL
 		WHERE tra_upjong_mid_cd = #{upjongMidCd} --'Q12(커피점/카페)' 'D03(종합소매점(편의점))'
 		ORDER BY tra_num desc		  
-	    --LIMIT 5000
+	    LIMIT 3000
 	]]>
 	</select>
 
