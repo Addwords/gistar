@@ -64,6 +64,13 @@ angular.module('ol').service('olService', function($http, $q) {
 			return $http.post(url, param).success(function(data){})
 			.error(function(e){	return $q.reject(e);});
 		}
+		,csvParse : function(param){
+			var url = '/di/csv.gistar';
+			return $http.post(url).success(function(data){})
+			.error(function(e){	return $q.reject(e);});
+		}
+		
+		
 	}//storage
 
 	return storage;

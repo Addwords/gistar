@@ -38,6 +38,12 @@ top: 10px;
 left: 10px;
 z-index: 1001;
 }
+#csvParse{
+position:absolute;
+top: 10px;
+left: 150px;
+z-index: 1001;
+}
 .modes{
 position:absolute;
 top: 40px;
@@ -83,8 +89,9 @@ img{vertical-align:top}
 	<div class="map_wrap">
 		<div id="map" class="smallmap">
 			<select ng-model="names" id="selectgu" style="height:30px; display: block;" name="sggnm" ng-change="vm.gcon(this)">
-				<option>::서울시</option> 
-			</select> 
+				<option>::서울특별시::</option> 
+			</select>
+			<input ng-model="csv" type="file" id="csvParse" ng-click="vm.csv(this)"> 
 		<div class="modes">
                       <span ng-model="cake" id="cafe" ng-click="vm.test(this)">Cafe</span>
                       <span ng-click="vm.clust('D03')" class="btn-nagative" value="convenience">편의점</span>

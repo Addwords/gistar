@@ -95,7 +95,8 @@
 		  vm.showLayerBar = false;
 		  $scope.createMap();
 		  vm.dropb();
-		  $('#cafe').html('Cafessss');
+		  vm.dropb2();
+		  
 		  //vm.makeGrid("D03"); 정보테이블
 	  }
 	  
@@ -114,6 +115,9 @@
 			  $('#selectgu').html(sstr);
 		  });
 		  
+	  }
+	  vm.dropb2 = function(){ // 드롭박스에 구정보 불러옴
+		  $('#cafe').html('Cafessss');
 	  }
 
 	  vm.emdgeom = function(data){ //클릭한 현재위치정보가 어느 동에 속해있는지
@@ -181,6 +185,11 @@
 	  vm.test = function(data){
 		  
 		  console.log(data);
+	  }
+	  
+	  vm.csv = function(e){
+		  console.log(e);
+		  olService.csvParse();
 	  }
 	  
 	  vm.sang = function(data){ // 상권정보 가져와서 마커찍기 중
