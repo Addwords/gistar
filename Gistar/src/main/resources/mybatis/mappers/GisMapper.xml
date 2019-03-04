@@ -3,7 +3,7 @@
 
 <mapper namespace="com.kt.mapper.GisMapper">
 
-	<!-- 게시글 list -->
+	<!-- 클릭영역 주소값 return -->
 	<select id="selectList" parameterType="com.kt.vo.GisVO" resultType="com.kt.vo.GisVO">
 		<!-- VO랑 변수명 맞춰야함 -->
 	<![CDATA[

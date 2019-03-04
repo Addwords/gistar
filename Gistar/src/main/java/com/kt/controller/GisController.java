@@ -155,57 +155,41 @@ public class GisController {
 		}
 
 		//csv파일 체크해보기
-		@RequestMapping(value="/di/csv.gistar", method = RequestMethod.POST)
-		public @ResponseBody Map<String, Object> csvValidation(){
-			//@RequestBody MultipartRequest mr
-			//System.out.println(mr.getFileNames());
-			//System.out.println("왔다");
-			Map<String, Object> map = new HashMap<String, Object>();	
-			String csvFile = "D:/test.csv";
-	        BufferedReader br = null;
-	        String line = "";
-	        String cvsSplitBy = ",";
-
-	        try {
-	        	String[] country = null;
-	            br = new BufferedReader(new FileReader(csvFile));
-	            Pattern p = Pattern.compile("(^[0-9]*$)");
-	            int cnt=0;
-	            int vali;
-	            while ((line = br.readLine()) != null) {
-	            	
-	                country = line.split(cvsSplitBy);//한 row를 ,로 구분하여 배열에 담음
-	                
-	                for(int i=0;i<country.length;i++ ) { //담겨있는 배열의 길이만큼 꺼냄
-		            	System.out.println(country[i]);
-		            	Matcher m = p.matcher(country[i]);
-		            	if(m.find()) {
-		            		cnt++;
-		            	}
-		            }    
-	            }
-	            System.out.println("count : "+cnt);
-
-	        } catch (FileNotFoundException e) {
-	            e.printStackTrace();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        } finally {
-	            if (br != null) {
-	                try {
-	                    br.close();
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        }
+	/*
+	 * @RequestMapping(value="/di/csv.gistar", method = RequestMethod.POST)
+	 * public @ResponseBody Map<String, Object> csvValidation(){ //@RequestBody
+	 * MultipartRequest mr //System.out.println(mr.getFileNames());
+	 * //System.out.println("왔다"); Map<String, Object> map = new HashMap<String,
+	 * Object>(); String csvFile = "D:/sangtest.csv"; BufferedReader br = null;
+	 * String line = ""; String cvsSplitBy = ",";
+	 * 
+	 * try { String[] country = null; br = new BufferedReader(new
+	 * FileReader(csvFile)); Pattern p = Pattern.compile("(^[0-9]*$)"); //숫자로만 이루어진
+	 * 데이터 검사 Pattern jubun = Pattern.compile(
+	 * "^\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|[3][01])\\-[1-4][0-9]{6}$");
+	 * //주민등록번호 패턴 int cnt=0; int vali; while ((line = br.readLine()) != null) {
+	 * 
+	 * country = line.split(cvsSplitBy);//한 row를 ,로 구분하여 배열에 담음
+	 * 
+	 * for(int i=0;i<country.length;i++ ) { //담겨있는 배열의 길이만큼 꺼냄
+	 * //System.out.println(country[i]);
+	 * 
+	 * Matcher m = p.matcher(country[i]); Matcher m2 = jubun.matcher(country[i]);
+	 * if(m2.find()) { log.info("r:{} {}",i,country[i]); //주민등록번호 데이터만 로그로 남김 cnt++;
+	 * }else {
+	 * 
+	 * } } } System.out.println("count : "+cnt); log.info("count:{}",cnt); } catch
+	 * (FileNotFoundException e) { e.printStackTrace(); } catch (IOException e) {
+	 * e.printStackTrace(); } finally { if (br != null) { try { br.close(); } catch
+	 * (IOException e) { e.printStackTrace(); } } }
+	 */
 
 			
-			return map;
-		}
+			//return map;
+		//}
 		
 		
 		
-		
+
 		
 }

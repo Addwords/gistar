@@ -6,6 +6,14 @@
 	  var mapnik = new OpenLayers.Layer.OSM(); // 지도관련lib? ollehmap으로 대체할것임
 	  var daumMap = new OpenLayers.Layer.Daum(); // 지도관련lib DaumMap
   	  var format = new OpenLayers.Format.WKT(); // 지도관련lib? ollehmap으로 대체할것임
+  	var dm_wms = new OpenLayers.Layer.WMS(
+            "DM Solutions Demo",
+            "http://www2.dmsolutions.ca/cgi-bin/mswms_gmap",
+            {layers: "bathymetry,land_fn,park,drain_fn,drainage," +
+                     "prov_bound,fedlimit,rail,road,popplace",
+             transparent: "true", format: "image/png"}
+            //{visibility: false}
+        );
   	  var screenxy = { lon:0, lat:0 };
   	  var colorSet = ["#D70000","#FF0000","#FF6600","#FFAA00","#FEE800","#C8E70E","#8ECB12","#5BCC09","#0CC408","#00B406","#0BC2C4","#0FA4D5","#1E85DC","#2F5AE7"];
   	  var emdgeomlist = [];
@@ -27,7 +35,7 @@
         div: "map", // 적용할 div id
         projection: "EPSG:5181",  // 투영좌표계??EPSG:900913
         displayProjection: "EPSG:5179", // 표시할 투영 좌표계??
-        numZoomLevels: 7, // 초기 지도 확대 정도인데 아랫부분에 bound함수때매 덮어써짐
+        //numZoomLevels: 7, // 초기 지도 확대 정도인데 아랫부분에 bound함수때매 덮어써짐
         // approximately match Google's zoom animation
         zoomDuration: 10,
         eventListeners : {
@@ -82,7 +90,7 @@
   	  		// 영역에서 마우스가 벗어낫을때 초기화
             ,featureout : function(evt){
                 var feature = evt.feature.style;
-                feature.fillOpacity = 0.6;// 커서가 빠지면 색 원복
+                feature.fillOpacity = 0.6; // 커서가 빠지면 색 원복
                 map.removePopup(feature.popup);
                 feature.popup.destroy();
                 feature.popup = null;
@@ -91,7 +99,7 @@
   	  });
 		  	
 	            
-	  $scope.init = function(){ // 최초실행
+	  vm.init = function(){ // 최초실행
 		  vm.showLayerBar = false;
 		  $scope.createMap();
 		  vm.dropb();
@@ -117,7 +125,7 @@
 		  
 	  }
 	  vm.dropb2 = function(){ // 드롭박스에 구정보 불러옴
-		  $('#cafe').html('Cafessss');
+		  //$('.modes').html('<input type="button" value="cafe" class="btn" ng-click="vm.test(this)" ng-model="cafe">');
 	  }
 
 	  vm.emdgeom = function(data){ //클릭한 현재위치정보가 어느 동에 속해있는지
@@ -183,26 +191,25 @@
 	  }
 	  
 	  vm.test = function(data){
-		  
-		  console.log(data);
+		  var eve = data;
+		  if(eve == 'layer-btn'){
+			  eve = 'btn-active';
+		  }
+		  console.log(eve);
+		  //map.zoomTo(map.getZoom()-1);
+		  //map.zoomTo(map.getZoom()-1);
 	  }
 	  
-	  vm.csv = function(e){
+	  vm.searchs = function(e){
 		  console.log(e);
-		  olService.csvParse();
 	  }
 	  
 	  vm.sang = function(data){ // 상권정보 가져와서 마커찍기 중
 		  
 		  var sd = document.getElementById("selectgu").value;
 		  var zl = (map.getZoom())*(map.getZoom());
-		  var param = JSON.stringify({upjongMidCd:data, sggCd:sd}); // ajax통신시
-																	// json형식을
-																	// String으로
-																	// cast해서
-																	// 보내야함
+		  var param = JSON.stringify({upjongMidCd:data, sggCd:sd}); // ajax통신시 json형식을 String으로 cast해서 보내야함
 		  // var param = JSON.stringify({upjongMidCd:'Q12',zlevel:zl});
-			// //ajax통신시 json형식을 String으로 cast해서 보내야함
 		  console.log(param);
 		  if(sd == '::서울특별시::'){
 			  alert('구를 선택해 주세요.')
@@ -225,6 +232,7 @@
 	  }
 	  
 	  vm.clust = function(data){
+		  console.log(data);
 		  var myLocation = []; // 선택된 구의 상권위치정보를 담을 배열
 		  var param = JSON.stringify({upjongMidCd:data}); // ajax통신시 json형식을 String으로 cast해서 보내야함
 		  olService.getsangclust(param).success(function(data) {
@@ -292,6 +300,7 @@
   		            new OpenLayers.Bounds(126.67168, 37.35204, 127.35146, 37.71306
   		            ).transform(map.displayProjection, map.projection)
   		        );*/
+              vm.test();
 	  }
 	  
 	  
@@ -300,7 +309,7 @@
 		    map.addLayers([daumMap, vector]);
 		    // map.addLayers([mapnik, vector]); //경계영역 레이어
 		    map.addLayers([daumMap, overlay]); // 마커 레이어
-		    // map ì»¨í¸ë¡¤ ì¶ê°
+		    //map.addLayers([daumMap, dm_wms]);
 		    // map.addControl(new OpenLayers.Control.LayerSwitcher()); // ì°ì¸¡
 			// ì§ëë³ê²½ ì£¼ìì²ë¦¬
 		    // map.addControl(new OpenLayers.Control.EditingToolbar(vector)); //
@@ -325,7 +334,7 @@
 		    	  autoActivate:true
 		      }); 
 		      map.addControl(vselector);
-		      // map.addControl(oselector);
+		      //map.addControl(OverviewMap);
 	 } // 맵그리기 끝
 	  
 	  // 동별 색칠하기 --5분위로 나눔(법정동 과 행정동 둘중하나로 통일해야됨)
@@ -400,7 +409,7 @@
 			  $("#list").jqGrid('addRowData',i+1,gridData[i]);
 		  }
 	  }
-	  $scope.init();
+	  vm.init();
 	  function display(event) {
           var f = event.feature;
           if(f.cluster) {

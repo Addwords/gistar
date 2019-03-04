@@ -9,13 +9,26 @@
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
+	<!-- export logFile -->
+   <appender name="file" class="org.apache.log4j.RollingFileAppender">
+      <param name="append" value="false" />
+      <param name="maxFileSize" value="10KB" />
+      <param name="maxBackupIndex" value="5" />
+      <!-- For Tomcat -->
+      <param name="file" value="D:/log/parser.log" />
+      <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" 
+         value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+      </layout>
+   </appender>
 	
 	<!-- Application Loggers -->
 	<logger name="com.kt">
 		<level value="debug" />
 	</logger>
 	<logger name="com.kt.controller">
-		<level value="info" />
+		<level value="debug" />
+		<appender-ref ref="file" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

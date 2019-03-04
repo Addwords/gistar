@@ -38,11 +38,12 @@ top: 10px;
 left: 10px;
 z-index: 1001;
 }
-#csvParse{
+#sangSerch{
 position:absolute;
 top: 10px;
-left: 150px;
+left: 140px;
 z-index: 1001;
+height: 25px;
 }
 .modes{
 position:absolute;
@@ -57,6 +58,12 @@ border: solid 1px;
 cursor: pointer;
 background-color: white;
 }
+
+.layer-btn.btn-repeat{
+background-color: black;
+color:red;
+}
+
 .smallmap {
 	width: 100%;
 	height: 100%;
@@ -91,10 +98,10 @@ img{vertical-align:top}
 			<select ng-model="names" id="selectgu" style="height:30px; display: block;" name="sggnm" ng-change="vm.gcon(this)">
 				<option>::서울특별시::</option> 
 			</select>
-			<input ng-model="csv" type="file" id="csvParse" ng-click="vm.csv(this)"> 
+			<input ng-model="search" type="text" id="sangSerch" name="sangSerch" ng-change=""> 
 		<div class="modes">
-                      <span ng-model="cake" id="cafe" ng-click="vm.test(this)">Cafe</span>
-                      <span ng-click="vm.clust('D03')" class="btn-nagative" value="convenience">편의점</span>
+            <span class="layer-btn" ng-model="cafe" ng-class="btn-repeat" ng-click="vm.test($event)">Cafe</span>
+            <span class="layer-btn" ng-model="convenience" ng-class="btn-repeat" ng-click="vm.clust('D03')">편의점</span>
         </div>
                    
 			<div class="layer-info-wrap">
@@ -123,14 +130,6 @@ img{vertical-align:top}
 			<div id="wrapChart" style="width: 970px; height: 400px; padding: 10px 15px 15px 15px; margin-bottom:15px; border: #4a4a4a 1px solid">
 				<canvas id="myChart" style="width: 970px; height: 400px;"></canvas>
 			</div>
-<!-- 			<div class=""> -->
-<!-- 				<span class=""> -->
-<!-- 					<a href="" ng-click="vm.closePopup()"> -->
-<!-- 					닫기 -->
-<!-- 							<img src="https://bigsight.kt.com/bdip/assets/img/tra/btn/btn_pop_close.gif" title="닫기"> -->
-<!-- 					</a> -->
-<!-- 				</span> -->
-<!-- 			</div> -->
 		</div>
 	</div>
 

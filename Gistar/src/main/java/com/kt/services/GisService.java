@@ -9,7 +9,7 @@ import com.kt.vo.guVO;
 public interface GisService {
 
 	
-	//asdfsadf
+	//클릭영역 주소값 return
 	Map<String, Object> selectList(GisVO gisVO);
 	
 	//선택된 상권 정보 List

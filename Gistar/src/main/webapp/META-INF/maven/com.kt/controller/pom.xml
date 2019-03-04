@@ -222,6 +222,17 @@
 			<scope>test</scope>
 		</dependency>        
 	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					
+				</os>
+			</activation>
+		</profile>
+	</profiles>
     <build>
         <plugins>
             <plugin>
